@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.tsxon());
+app.use(bodyParser.json());
 
 app.use((req, res, next) => 
 {
@@ -33,7 +33,7 @@ app.post('/api/addcard', async (req, res, next) =>
   cardList.push( card );
 
   var ret = { error: error };
-  res.status(200).tsxon(ret);
+  res.status(200).json(ret);
 });
 
 app.post('/api/login', async (req, res, next) => 
@@ -61,7 +61,7 @@ app.post('/api/login', async (req, res, next) =>
   }
 
   var ret = { id:id, firstName:fn, lastName:ln, error:error};
-  res.status(200).tsxon(ret);
+  res.status(200).json(ret);
 });
 
 app.post('/api/searchcards', async (req, res, next) => 
@@ -85,7 +85,11 @@ app.post('/api/searchcards', async (req, res, next) =>
   }
 
   var ret = {results:_ret, error:''};
-  res.status(200).tsxon(ret);
+  res.status(200).json(ret);
+});
+
+app.get('/', async (req, res, next) => {
+  res.status(200).json({"test": "hello"});
 });
 
 
