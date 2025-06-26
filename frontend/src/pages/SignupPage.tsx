@@ -1,17 +1,17 @@
 import PageTitle from '../components/PageTitle.tsx';
-import Login from '../components/Login.tsx';
+import Signup from '../components/Signup.tsx';
 import HomeNav from '../components/HomeNav.tsx';
 
-const LoginPage = () =>
+const SignupPage = () =>
 {
 
     return(
       <div>
         <HomeNav />
         <PageTitle />
-        <Login />
+        <Signup />
       </div>
     );
 };
 
-export default LoginPage;
+export default SignupPage;
