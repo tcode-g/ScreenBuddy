@@ -1,5 +1,5 @@
 const express = require('express');
-require('dotenv').config();
+//require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -9,9 +9,9 @@ app.use(bodyParser.json());
 
 console.log("zaza");
 const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URI;
+//const url = process.env.MONGODB_URI;
+const url = 'mongodb+srv://AlphaOne:cop4331!@cluster0.bqiyan9.mongodb.net/';
 const mongoose = require('mongoose');
-;
 mongoose.connect(url)
 .then(() => console.log("Mongo DB connected"))
 .catch(err => console.log(err));
