@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -6,6 +7,24 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+console.log("zaza");
+const MongoClient = require('mongodb').MongoClient;
+const url = process.env.MONGODB_URI;
+const mongoose = require('mongoose');
+;
+mongoose.connect(url)
+.then(() => console.log("Mongo DB connected"))
+.catch(err => console.log(err));
+var api = require('./api.js');
+api.setApp( app, mongoose );
+console.log("Ineza");
+app.listen(5000);
+
+
+
+
+
+/*
 app.use((req, res, next) => 
 {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -91,6 +110,7 @@ app.post('/api/searchcards', async (req, res, next) =>
 app.get('/', async (req, res, next) => {
   res.status(200).json({"test": "hello"});
 });
+*/
 
-
-app.listen(5000); // start Node + Express server on port 5000
+ // start Node + Express server on port 5000
+console.log("failure");
