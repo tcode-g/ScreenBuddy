@@ -1,5 +1,5 @@
-import Welcome from '../components/HomeScreen/Welcome.tsx';
-import HomeNav from '../components/HomeScreen/HomeNav.tsx';
+import Welcome from '../components/HomePages/Welcome.tsx';
+import HomeNav from '../components/HomePages/HomeNav.tsx';
 
 const HomePage = () =>
 {

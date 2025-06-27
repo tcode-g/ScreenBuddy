@@ -1,6 +1,6 @@
-import PageTitle from '../components/HomeScreen/PageTitle.tsx';
-import Login from '../components/HomeScreen/Login.tsx';
-import HomeNav from '../components/HomeScreen/HomeNav.tsx';
+import PageTitle from '../components/HomePages/PageTitle.tsx';
+import Login from '../components/HomePages/Login.tsx';
+import HomeNav from '../components/HomePages/HomeNav.tsx';
 
 const LoginPage = () =>
 {

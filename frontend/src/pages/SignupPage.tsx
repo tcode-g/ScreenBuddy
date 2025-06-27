@@ -1,6 +1,6 @@
-import PageTitle from '../components/HomeScreen/PageTitle.tsx';
-import Signup from '../components/HomeScreen/Signup.tsx';
-import HomeNav from '../components/HomeScreen/HomeNav.tsx';
+import PageTitle from '../components/HomePages/PageTitle.tsx';
+import Signup from '../components/HomePages/Signup.tsx';
+import HomeNav from '../components/HomePages/HomeNav.tsx';
 
 const SignupPage = () =>
 {
