@@ -9,13 +9,12 @@ function Signup()
     <div className="info-container">
       <form className="info-box" onSubmit={doSignup}>
         <span className="info-title">Get Started!</span>
-        <input type="text" id="regFirstname" placeholder="First Name" className="login-input" />
-        <input type="text" id="regLastname" placeholder="Last Name" className="login-input" />
-        <input type="email" id="regEmail" placeholder="Email" className="login-input" />
-        <input type="password" id="regPassword" placeholder="Password" className="login-input" />
-        <input type="password" id="regConfPassword" placeholder="Confirm Password" className="login-input" />
-        <input type="submit" value="Sign Up" className="login-button" />
-        <span id="regResult" className="login-result"></span>
+        <input type="text" id="regUsername" placeholder="Username" className="info-input" />
+        <input type="email" id="regEmail" placeholder="Email" className="info-input" />
+        <input type="password" id="regPassword" placeholder="Password" className="info-input" />
+        <input type="password" id="regConfPassword" placeholder="Confirm Password" className="info-input" />
+        <input type="submit" value="Sign Up" className="info-button" />
+        <span id="regResult" className="info-result"></span>
       </form>
     </div>
   );

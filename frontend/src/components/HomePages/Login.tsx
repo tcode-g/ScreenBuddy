@@ -28,13 +28,15 @@ function Login()
     <div className="info-container">
       <form className="info-box" onSubmit={doLogin}>
         <span className="info-title">Welcome Back!</span>
-        <input type="text" id="loginName" placeholder="Username" className="login-input" />
-        <input type="password" id="loginPassword" placeholder="Password" className="login-input" />
-        <input type="submit" value="Do It" className="login-button" />
-        <span id="loginResult" className="login-result"></span>
+        <input type="text" id="loginName" placeholder="Username" className="info-input" />
+        <input type="password" id="loginPassword" placeholder="Password" className="info-input" />
+        <input type="submit" value="Log In" className="info-button" />
+        <a className="info-link" id="loginForgetPassword">Forget password? (DOES NOTHING)</a>
+        <span id="loginResult" className="info-result"></span>
       </form>
     </div>
   );
 };
+
 
 export default Login;

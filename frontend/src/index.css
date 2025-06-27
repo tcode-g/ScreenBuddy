@@ -83,7 +83,7 @@ a {
   text-align: center;
 }
 
-.login-input {
+.info-input {
   padding: 0.9rem 1rem;
   border-radius: 8px;
   border: none;
@@ -93,7 +93,7 @@ a {
   color: #34404b;
 }
 
-.login-button {
+.info-button {
   background-color: #E75A7C;
   color: #fff;
   font-size: 1.1em;
@@ -105,11 +105,11 @@ a {
   transition: background-color 0.2s ease;
 }
 
-.login-button:hover {
+.info-button:hover {
   background-color: #b84761;
 }
 
-.login-result {
+.info-result {
   text-align: center;
   color: #F2F5EA;
 }
