@@ -1,4 +1,4 @@
-import PageTitle from '../components/HomePages/PageTitle.tsx';
+import PageTitle from '../components/DashboardPages/DashBoardTitle.tsx';
 
 const DashBoardPage = () =>
 {

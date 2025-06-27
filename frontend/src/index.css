@@ -26,6 +26,16 @@ a {
   color: #fd7e97;
 }
 
+.dash-board-title {
+  font-size: 3em;
+  font-weight: 700;
+  color: #E75A7C;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  text-decoration: none;
+}
+
+
 .home-nav-bar {
   display: flex;
   justify-content: center;
@@ -113,8 +123,6 @@ a {
   text-align: center;
   color: #F2F5EA;
 }
-
-
 
 
 
