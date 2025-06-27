@@ -7,7 +7,7 @@ function Signup()
   }
   return (
     <div id="signupDiv">
-        <span id="inner-title">SIGN UP</span><br />
+        <span id="inner-title">Sign Up</span><br />
         <input type="text" id="regFirstname" placeholder="First Name" /><br />
         <input type="text" id="regLasttname" placeholder="Last Name" /><br />
         <input type="email" id="regEmail" placeholder="Email" /><br />

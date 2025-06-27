@@ -1,14 +1,14 @@
-import PageTitle from '../components/PageTitle.tsx';
-import Login from '../components/Login.tsx';
-import HomeNav from '../components/HomeNav.tsx';
+import PageTitle from '../components/HomeScreen/PageTitle.tsx';
+import Login from '../components/HomeScreen/Login.tsx';
+import HomeNav from '../components/HomeScreen/HomeNav.tsx';
 
 const LoginPage = () =>
 {
 
     return(
       <div>
-        <HomeNav />
         <PageTitle />
+        <HomeNav />
         <Login />
       </div>
     );

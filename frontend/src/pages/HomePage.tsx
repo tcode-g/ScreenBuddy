@@ -1,13 +1,13 @@
-import Welcome from '../components/Welcome.tsx';
-import HomeNav from '../components/HomeNav.tsx';
+import Welcome from '../components/HomeScreen/Welcome.tsx';
+import HomeNav from '../components/HomeScreen/HomeNav.tsx';
 
 const HomePage = () =>
 {
 
     return(
       <div>
-        <HomeNav />
         <Welcome />
+        <HomeNav />
       </div>
     );
 };

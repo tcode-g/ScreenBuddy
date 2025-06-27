@@ -2,9 +2,9 @@
 
 function Login()
 {
-  //const [message, setMessage] = useState('');   
-  //const [loginName, setLoginName] = useState('');
-  //const [loginPassword, setPassword] = useState('');
+ //const [message, setMessage] = useState('');   
+    //const [loginName, setLoginName] = useState('');
+    //const [loginPassword, setPassword] = useState('');
 
 
   function doLogin(event:any) : void
@@ -26,7 +26,7 @@ function Login()
 */
     return(
       <div id="loginDiv">
-        <span id="inner-title">PLEASE LOG IN</span><br />
+        <span id="inner-title">Log In</span><br />
         <input type="text" id="loginName" placeholder="Username"  /><br />
         <input type="password" id="loginPassword" placeholder="Password" /><br />
         <input type="submit" id="loginButton" className="buttons" value = "Do It"
