@@ -136,7 +136,7 @@ body {
 @media (max-width: 768px) {
   .title {
     margin-top: 0rem;
-    font-size: 2.5em;
+    font-size: 3em;
     text-align: center;
   }
 
@@ -155,15 +155,10 @@ body {
     width: 80%;
     height: 80%;
     padding: 1rem;
-
   }
 
   .info-title {
-    font-size: 1.5em;
-  }
-
-  .info-input {
-    font-size: 0.95em;
+    font-size: 1.8em;
   }
 
   .info-button {
