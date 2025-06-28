@@ -2,6 +2,7 @@ const express = require('express');
 //require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const port = 5000;
 
 const app = express();
 app.use(cors());
@@ -10,15 +11,28 @@ app.use(bodyParser.json());
 console.log("zaza");
 const MongoClient = require('mongodb').MongoClient;
 //const url = process.env.MONGODB_URI;
-const url = 'mongodb+srv://AlphaOne:cop4331!@cluster0.bqiyan9.mongodb.net/';
+const url = 'mongodb+srv://AlphaOne:cop4331!@cluster0.bqiyan9.mongodb.net/COP4331';
 const mongoose = require('mongoose');
+
 mongoose.connect(url)
-.then(() => console.log("Mongo DB connected"))
-.catch(err => console.log(err));
-var api = require('./api.js');
-api.setApp( app, mongoose );
-console.log("Ineza");
-app.listen(5000);
+  .then(() => {
+    console.log("MongoDB connected successfully!");
+
+    // --- Import and use API routes *after* successful DB connection ---
+    const api = require('./api')
+    api.setApp(app, mongoose);
+
+    console.log("Ineza"); 
+
+    // --- Start the server *after* MongoDB connection and API setup ---
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+  })
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
 
 
 
@@ -113,4 +127,3 @@ app.get('/', async (req, res, next) => {
 */
 
  // start Node + Express server on port 5000
-console.log("failure");
