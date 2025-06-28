@@ -124,12 +124,6 @@ a {
   color: #F2F5EA;
 }
 
-.home-page-wrapper {
-  padding: 1rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 
 body {
   margin: 0;
@@ -141,6 +135,7 @@ body {
 
 @media (max-width: 768px) {
   .title {
+    margin-top: 0rem;
     font-size: 2.5em;
     text-align: center;
   }
@@ -151,21 +146,31 @@ body {
   }
 
   .home-nav-bar {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.7rem;
   }
 
   .info-box {
-    width: 90%;
+    width: 80%;
+    height: 80%;
     padding: 1rem;
+
   }
 
   .info-title {
-    font-size: 1.8em;
+    font-size: 1.5em;
+  }
+
+  .info-input {
+    font-size: 0.95em;
   }
 
   .info-button {
     font-size: 1em;
+  }
+
+  .info-link {
+    font-size: 0.85em;
   }
 }

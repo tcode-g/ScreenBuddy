@@ -5,7 +5,7 @@ const HomePage = () =>
 {
 
     return(
-      <div className = "home-page-wrapper">
+      <div>
         <PageTitle />
         <HomeNav />
       </div>
