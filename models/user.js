@@ -2,19 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    UserId: {
-        type: Number
-    },
-
-    firstName: {
-        type: String,
-        required: true
-    },
-
-    lastName: {
-        type: String,
-        required: true
-    },
+    // MongoDB has automatically creates a _id field for each
 
     email: {
         type: String,
