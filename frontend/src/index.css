@@ -124,11 +124,48 @@ a {
   color: #F2F5EA;
 }
 
-
+.home-page-wrapper {
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5em;
+    text-align: center;
+  }
+
+  .nav-link,
+  .nav-link-active {
+    font-size: 1.2em;
+  }
+
+  .home-nav-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .info-box {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .info-title {
+    font-size: 1.8em;
+  }
+
+  .info-button {
+    font-size: 1em;
+  }
 }

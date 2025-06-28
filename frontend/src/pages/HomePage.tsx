@@ -1,12 +1,12 @@
-import Welcome from '../components/HomePages/Welcome.tsx';
+import PageTitle from '../components/HomePages/PageTitle.tsx';
 import HomeNav from '../components/HomePages/HomeNav.tsx';
 
 const HomePage = () =>
 {
 
     return(
-      <div>
-        <Welcome />
+      <div className = "home-page-wrapper">
+        <PageTitle />
         <HomeNav />
       </div>
     );
