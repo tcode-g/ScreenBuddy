@@ -30,10 +30,11 @@ function Login()
         console.log(response);
         navigate('/dashboard');
       } else {
-        setloginResult('User/Password combination incorrect');
+        setloginResult(`User/Password combination incorrect`);
       }
     } catch(error : any){
       console.log(error);
+      setloginResult(`User/Password combination incorrect`);
     }
 
   }
@@ -56,7 +57,7 @@ function Login()
         <input type="password" id="loginPassword" placeholder="Password" className="info-input" onChange={handleSetLoginPassword} />
         <input type="submit" value="Log In" className="info-button" />
         <a className="info-link" id="loginForgetPassword">Forget password? (DOES NOTHING)</a>
-        <span id="loginResult" className="info-result">${loginResult}</span>
+        <span id="loginResult" className="info-result">{loginResult}</span>
       </form>
     </div>
   );
