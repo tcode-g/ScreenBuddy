@@ -1,4 +1,6 @@
 import PageTitle from '../components/DashboardPages/DashBoardTitle.tsx';
+import Logout from '../components/DashboardPages/Logout.tsx';
+import Profile from '../components/DashboardPages/profile.tsx';
 
 const DashBoardPage = () =>
 {
@@ -6,6 +8,8 @@ const DashBoardPage = () =>
     return(
       <div>
         <PageTitle />
+        <Profile />
+        <Logout />
       </div>
     );
 };

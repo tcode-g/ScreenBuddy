@@ -1,19 +1,43 @@
-//import  React, {useState} from 'react';
+import  React, {useState} from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login()
 {
-  //const [message, setMessage] = useState('');   
-  //const [loginName, setLoginName] = useState('');
-  //const [loginPassword, setPassword] = useState('');
+  const [loginResult, setloginResult] = useState('');   
+  const [loginName, setLoginName] = React.useState('');
+  const [loginPassword, setPassword] = React.useState('');
+  const navigate = useNavigate();
 
-
-  function doLogin(event:any) : void
+  async function doLogin(event:any) : Promise<void>
   {
     event.preventDefault();
-    alert('testing');
-    // alert('doIt()' + loginName + ' ' + loginPassword);
+    console.log('please work');
+    var obj = {username: loginName, password: loginPassword};
+    
+    try
+    {
+      const response = await axios.post('http://localhost:5000/api/login', obj);
+      //localStorage.getItem('token_data');
+      console.log('whyyy');
+      
+      
+      if(response.status === 200){
+        setloginResult('Login sucessful');
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', response.data.user.id);
+        console.log(response);
+        navigate('/dashboard');
+      } else {
+        setloginResult('User/Password combination incorrect');
+      }
+    } catch(error : any){
+      console.log(error);
+    }
+
   }
-  /*
+  
     function handleSetLoginName(event: any) : void
     {
       setLoginName(event.target.value);
@@ -23,16 +47,16 @@ function Login()
     {
       setPassword(event.target.value);
     }
-  */
+  
   return (
     <div className="info-container">
       <form className="info-box" onSubmit={doLogin}>
         <span className="info-title">Welcome Back!</span>
-        <input type="text" id="loginName" placeholder="Username" className="info-input" />
-        <input type="password" id="loginPassword" placeholder="Password" className="info-input" />
+        <input type="text" id="loginName" placeholder="Username" className="info-input" onChange={handleSetLoginName} />
+        <input type="password" id="loginPassword" placeholder="Password" className="info-input" onChange={handleSetLoginPassword} />
         <input type="submit" value="Log In" className="info-button" />
         <a className="info-link" id="loginForgetPassword">Forget password? (DOES NOTHING)</a>
-        <span id="loginResult" className="info-result"></span>
+        <span id="loginResult" className="info-result">${loginResult}</span>
       </form>
     </div>
   );

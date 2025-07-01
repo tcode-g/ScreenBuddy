@@ -1,6 +1,10 @@
 require('express');
 require('mongodb');
+const auth = require('./middleware/auth.js');
+const user = require('./models/user.js');
 const User = require("./models/user.js");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 exports.setApp = function(app, client)
 {   
@@ -48,14 +52,19 @@ exports.setApp = function(app, client)
                 return res.status(400).json({ message: "Username and password are required." });
             }
 
-            const user = await User.findOne({ username: username, password: password });
+            const user = await User.findOne({ username: username});
             
             // Maybe add verified flag to users in usersCollection? If true allow login, else don't. Verification done through email. 
             if (user) {
-                // JWT generated here?
-                res.status(200).json({ message: "Login successful!", user: { id: user._id, email: user.email } });
+                const checkPassword = await bcrypt.compare(password, user.password);
+                if(checkPassword){
+                    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET || 'defaultsecret', {expiresIn: '1h'});
+                    res.status(200).json({ message: "Login successful!", token, user: { id: user._id, email: user.email } })
+                } else {
+                   return res.status(401).json({ message: "Invalid username or password.", user: {id: -1, email: ''} });
+                }    
             } else {
-                res.status(401).json({ message: "Invalid username or password." });
+              return res.status(401).json({ message: "Invalid username or password.", user: {id: -1, email: ''} });
             }
         }
         catch (error) {
@@ -63,4 +72,28 @@ exports.setApp = function(app, client)
             res.status(500).json({ message: "An error occurred." });
         }
     });
+
+    app.get('/api/profile/:id', auth, async (req, res, next) =>
+    {
+        try {
+            
+            
+            
+
+           const user = await User.findById(req.params.id).select('-password');
+            
+            res.status(201).json({
+                message: "User found",
+                user: {
+                    name: user.username,
+                    created: user.createdAt
+                }
+            });
+        }
+        catch (error) {
+            console.error("Error during fetch:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
 }

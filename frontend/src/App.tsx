@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import SignupPage from './pages/SignupPage.tsx';
 import DashBoardPage from './pages/DashBoardPage.tsx'; // TEMPORARY PAGE
+import DeniedPage from './pages/DeniedPage.tsx';
+import PrivateRoute from './components/PrivateRoute.tsx';
 
 function App() 
 {
@@ -16,9 +18,10 @@ function App()
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="dashboard" element={<DashBoardPage />} /> {/* TEMPORARY PAGE */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/denied" element={<DeniedPage />} />
+        <Route path="/dashboard" element={<PrivateRoute><DashBoardPage /> </PrivateRoute>} /> {/* TEMPORARY PAGE */}
       </Routes>
     </Router>
   );
