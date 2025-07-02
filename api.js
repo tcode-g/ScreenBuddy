@@ -30,7 +30,7 @@ exports.setApp = function(app, client)
 
             const newUser = new User({email:email, username:username, password:password});
 
-            await newUser.save();
+            
             
             res.status(201).json({
                 message: "User registered successfully!",
@@ -44,6 +44,8 @@ exports.setApp = function(app, client)
             const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
             newUser.emailVerificationCode = verificationCode
             newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
+
+            await newUser.save();
 
             const mail = {
                 from: emailAcc,
