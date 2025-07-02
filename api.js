@@ -28,7 +28,7 @@ exports.setApp = function(app, client)
                 return res.status(400).json({ message: "Email, username, and password are required." });
             }
 
-            const newUser = new User({email:email, username:username, password:password});
+            const newUser = new User({email:email, username:username, password:password, emailVerificationCode: "", emailVerificationCodeExpires: ""});
 
             
             
