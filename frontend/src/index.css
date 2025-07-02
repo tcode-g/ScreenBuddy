@@ -23,18 +23,8 @@ a {
 }
 
 .title:hover {
-  color: #fd7e97;
+  color: hsl(348, 97%, 74%);
 }
-
-.dash-board-title {
-  font-size: 3em;
-  font-weight: 700;
-  color: #E75A7C;
-  margin-bottom: 0em;
-  margin-top: 0em;
-  text-decoration: none;
-}
-
 
 .home-nav-bar {
   display: flex;
@@ -132,7 +122,61 @@ body {
   overflow-x: hidden;
 }
 
+/* || DASHBOARD STYLES */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2b343d;
+  padding: 1rem 2rem;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  position: relative;
+}
 
+.dash-board-title {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: #E75A7C;
+  margin: 0;
+}
+
+.logout-button {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2.7em;
+  font-weight: 500;
+  color: #F2F5EA;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: inherit;
+}
+
+.logout-button:hover {
+  color: #fd7e97;
+}
+
+.dashboard-user-info {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.user-name-title {
+  margin: 0;
+  font-size: 2.2em;
+  color: #F2F5EA;
+}
+
+.user-date-subtitle {
+  margin: 0;
+  font-size: 1em;
+  color: #F2F5EA;
+}
+
+
+/* || MOBILE HOME PAGE */
 @media (max-width: 768px) {
   .title {
     margin-top: 0rem;
@@ -169,3 +213,5 @@ body {
     font-size: 0.85em;
   }
 }
+
+
