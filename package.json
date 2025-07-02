@@ -1,0 +1,16 @@
+{
+  "name": "swaggerapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "http-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "swagger-ui-dist": "^5.25.4"
+  }
+}
