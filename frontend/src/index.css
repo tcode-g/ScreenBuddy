@@ -124,14 +124,13 @@ body {
 
 /* || DASHBOARD STYLES */
 .dashboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: #2b343d;
   padding: 1rem 2rem;
-  width: 100%;
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  position: relative;
+  display: flex;
+  justify-content: space-between; /* This will space your items out evenly */
+  align-items: center; 
+  gap: 1rem;
 }
 
 .dash-board-title {
