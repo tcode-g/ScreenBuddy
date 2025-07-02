@@ -5,7 +5,7 @@ const User = require("./models/user.js");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
-const emailAcc = 'screenbuddy4331@gmail.com'
+const emailAcc = process.env.EMAIL_ACCOUNT
 require('dotenv').config();
 const emailPassword = process.env.EMAIL_PASSWORD
 
