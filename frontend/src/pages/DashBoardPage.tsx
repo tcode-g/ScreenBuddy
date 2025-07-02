@@ -1,4 +1,6 @@
 import DashBoardHeader from '../components/DashboardPages/DashBoardHeader.tsx';
+import DashBoardBody from '../components/DashboardPages/DashBoardBody.tsx';
+
 
 const DashBoardPage = () =>
 {
@@ -6,6 +8,7 @@ const DashBoardPage = () =>
     return(
       <div>
         <DashBoardHeader />
+        <DashBoardBody />
       </div>
     );
 };
