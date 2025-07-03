@@ -31,7 +31,8 @@ function DashBoardHeader()
                 console.log(token);
                 console.log(userId);
                 console.log('header: ' , `Bearer ${token}`);
-                const response = await axios.get(`http://localhost:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
+                const response = await axios.get(`http://172.233.171.46:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
+                // const response = await axios.get(`http://localhost:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
                 console.log(response.data);
                 setProfile(response.data);
                 //console.log(profile.name + ' ' + profile.created);
