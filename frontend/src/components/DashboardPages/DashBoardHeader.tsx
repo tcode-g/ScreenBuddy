@@ -1,11 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-function Profile()
+
+function DashBoardHeader()
 {
-    const [profile, setProfile] = useState<any>(null);
     const navigate = useNavigate();
+
+    function doLogout() 
+    {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/');
+    }
+
+    const [profile, setProfile] = useState<any>(null);
     console.log('hello');
     useEffect(() =>{
         const fetchUserInfo = async () => {
@@ -37,15 +46,24 @@ function Profile()
         fetchUserInfo();
     }, []);
 
-    return profile ? (
-        
-        <div>
-            <p className = "user-name-title"> <strong>{profile.user.name}</strong> </p>
-            <p className = "user-date-subtitle"> <strong>User created on:</strong> {profile.user.created} </p>
+    return (
+        <div className="dashboard-header">
+            <a href="https://youtu.be/td3P1-cfZ4E" target="_blank" rel="noopener noreferrer">
+            <h1 className="dash-board-title">ScreenBuddy</h1>
+            </a>
+
+            {profile && profile.user && (
+            <div className="dashboard-user-info">
+                <p className="user-name-title"><strong>{profile.user.name}</strong></p>
+                <p className="user-date-subtitle"><strong>User created on:</strong> {profile.user.created}</p>
+            </div>
+            )}
+
+            <button className="logout-button" onClick={doLogout}>Logout</button>
         </div>
-
-    ) :  ( <p>Loading...</p>    
     );
-}
 
-export default Profile;
+
+};
+
+export default DashBoardHeader;
