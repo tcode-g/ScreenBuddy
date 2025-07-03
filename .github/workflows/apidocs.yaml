@@ -1,0 +1,30 @@
+name: CI/CD Backend
+on:
+  # pull_request:
+  #   branches:
+  #     - main
+  push:
+    branches:
+      - main
+     
+jobs:
+  deploy_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # - name: Install dependencies
+      #   run: npm install
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }} 
+          script: |
+            cd /var/SwaggerDocs
+            git pull origin swagger
+            npm install
+            pm2 restart swagger-docs
+
+          
