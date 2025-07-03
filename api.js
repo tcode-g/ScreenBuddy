@@ -1,10 +1,21 @@
 require('express');
 require('mongodb');
 const auth = require('./middleware/auth.js');
-const user = require('./models/user.js');
 const User = require("./models/user.js");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const emailAcc = process.env.EMAIL_ACCOUNT
+require('dotenv').config();
+const emailPassword = process.env.EMAIL_PASSWORD
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: emailAcc, 
+        pass: emailPassword
+    }
+});
 
 exports.setApp = function(app, client)
 {   
@@ -16,13 +27,10 @@ exports.setApp = function(app, client)
                 // making sure not empty string, add more verification later.
                 return res.status(400).json({ message: "Email, username, and password are required." });
             }
-            const newUser = new User({email:email, username:username, password:password});
 
-            // TODO: Check if user exists
+            const newUser = new User({email:email, username:username, password:password, emailVerificationCode: "", emailVerificationCodeExpires: ""});
 
-            // TODO: Password hashing
-
-            await newUser.save();
+            
             
             res.status(201).json({
                 message: "User registered successfully!",
@@ -32,9 +40,77 @@ exports.setApp = function(app, client)
                     email: newUser.email
                 }
             });
+
+            const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
+            newUser.emailVerificationCode = verificationCode
+            newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
+
+            await newUser.save();
+
+            const mail = {
+                from: emailAcc,
+                to: email,
+                subject: 'Email Verification for Your Account',
+                html: `
+                    <p>Hello ${username},</p>
+                    <p>Thank you for registering with us! To complete your registration, please use the following verification code:</p>
+                    <h3>${verificationCode}</h3>
+                    <p>This code is valid for a limited time.</p>
+                    <p>If you did not request this, please ignore this email.</p>
+                    <p>Regards,</p>
+                    <p>ScreenBuddy</p>
+                `
+            };
+
+            transporter.sendMail(mail, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                    return res.status(500).json({ message: 'Error sending verification email.' });
+                }
+                console.log('Verification email sent:', info.response);
+                res.status(200).json({ message: 'Please check your email for a verification code.' });
+            });
         }
         catch (error) {
             console.error("Error during register:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
+    app.post('/api/verify-email', async (req, res, next) =>
+    {
+        try {
+            const { email, code } = req.body;
+
+            const user = await User.findOne({ email });
+
+            if(!user) {
+                return res.status(404).json({ message: 'User not found.' });
+            }
+
+            if(user.isEmailVerified) {
+                return res.status(200).json({ message: 'Email is already verified.' });
+            }
+
+            if (user.emailVerificationCode === code && user.emailVerificationCodeExpires > new Date()) {
+                user.isEmailVerified = true;
+                user.emailVerificationCode = undefined;
+                emailVerificationCodeExpires = undefined;
+                await user.save();
+
+                res.status(200).json({ message: 'Email has been verified.' });
+            } else if (user.emailVerificationCodeExpires <= new Date()) {
+                user.emailVerificationCode = undefined;
+                user.emailVerificationCodeExpires = undefined;
+                await user.save();
+                
+                res.status(400).json({ message: 'Verification code has expired. Please request a new one.' });
+            } else {
+                res.status(400).json({ message: 'Invalid verification code.' });
+            }
+        }
+        catch (error) {
+            console.error("Error during email verifcation:", error);
             res.status(500).json({ message: "An error occurred." });
         }
     });
@@ -54,8 +130,11 @@ exports.setApp = function(app, client)
 
             const user = await User.findOne({ username: username});
             
-            // Maybe add verified flag to users in usersCollection? If true allow login, else don't. Verification done through email. 
             if (user) {
+                if(!user.isEmailVerified) {
+                    return res.status(401).json({ message: "Email not verified.", user: {id: user._id, email: user.email} });
+                }
+
                 const checkPassword = await bcrypt.compare(password, user.password);
                 if(checkPassword){
                     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET || 'defaultsecret', {expiresIn: '1h'});
@@ -76,10 +155,6 @@ exports.setApp = function(app, client)
     app.get('/api/profile/:id', auth, async (req, res, next) =>
     {
         try {
-            
-            
-            
-
            const user = await User.findById(req.params.id).select('-password');
             
             res.status(201).json({

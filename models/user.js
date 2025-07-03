@@ -23,10 +23,21 @@ const UserSchema = new Schema({
         required: true
     },
 
-    is_Email_Verified: {
+    isEmailVerified: {
         type: Boolean,
         default: false
-    }
+    },
+
+    emailVerificationCode: {
+        type: String,
+    },
+    
+    emailVerificationCodeExpires: {
+        type: Date,
+    },
+    
+    passwordResetToken: String,
+    passwordResetExpires: Date,
 
 }, {timestamps: true});
 

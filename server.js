@@ -1,18 +1,17 @@
 const express = require('express');
-//require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = 5000;
+const mongoose = require('mongoose');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+require('dotenv').config();
 console.log("zaza");
-const MongoClient = require('mongodb').MongoClient;
-//const url = process.env.MONGODB_URI;
-const url = 'mongodb+srv://AlphaOne:cop4331!@cluster0.bqiyan9.mongodb.net/COP4331';
-const mongoose = require('mongoose');
+
+const url = process.env.MONGODB_URL;
 
 mongoose.connect(url)
   .then(() => {
