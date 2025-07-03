@@ -55,7 +55,9 @@ function Email()
   return (
     <div className="info-container">
       <form className="info-box" onSubmit={doVerify}>
-        <span className="info-title">Hello {dispUsername}, a code has been sent to {dispEmail} please submit the code to verify your email.</span>
+        <span className="verify-title">
+          Hello <span className="highlight-pink">{dispUsername}</span>, a code has been sent to <span className="highlight-pink">{dispEmail}</span> please submit the code to verify your email.
+        </span>
         <input type="text" id="verificationCode" placeholder="Verification code" className="info-input" onChange={handleSetVerificationCode} />
         <input type="submit" value="Verify" className="info-button" />
         <span id="loginResult" className="info-result">{verificationResult}</span>

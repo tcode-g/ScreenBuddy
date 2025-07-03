@@ -83,6 +83,19 @@ a {
   text-align: center;
 }
 
+.verify-title {
+  color: #F2F5EA;
+  font-size: 1.8em;
+  font-weight: 400;
+  text-align: center;
+}
+
+.highlight-pink {
+  color: #E75A7C;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .info-input {
   padding: 0.9rem 1rem;
   border-radius: 8px;
@@ -225,6 +238,10 @@ body {
 
   .info-title {
     font-size: 1.8em;
+  }
+
+  .verify-title {
+    font-size: 0.9em;
   }
 
   .info-button {
