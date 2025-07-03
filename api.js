@@ -116,7 +116,7 @@ exports.setApp = function(app, client)
             }
         }
         catch (error) {
-            console.error("Error during email verifcation:", error);
+            console.error("Error during email verification:", error);
             res.status(500).json({ message: "An error occurred." });
         }
     });
