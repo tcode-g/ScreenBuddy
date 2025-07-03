@@ -22,8 +22,7 @@ function Email()
     
     try
     {
-      const response = await axios.post('http://172.233.171.46/:5000/api/verify-email', obj);
-      // const response = await axios.post('http://localhost:5000/api/verify-email', obj);
+      const response = await axios.post('http://localhost:5000/api/verify-email', obj);
       //localStorage.getItem('token_data');
       console.log('whyyy');
       
