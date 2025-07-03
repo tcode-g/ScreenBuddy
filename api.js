@@ -51,7 +51,7 @@ exports.setApp = function(app, client)
             newUser.emailVerificationCode = verificationCode
             newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
 
-            await newUser.save();
+            // await newUser.save();
 
             const mail = {
                 from: emailAcc,
@@ -68,14 +68,25 @@ exports.setApp = function(app, client)
                 `
             };
 
-            transporter.sendMail(mail, (error, info) => {
+            transporter.sendMail(mail, async (error, info) => {
                 if (error) {
                     console.error('Error sending email:', error);
                     return res.status(500).json({ message: 'Error sending verification email.' });
                 }
+
+                await newUser.save();
+
                 console.log('Verification email sent:', info.response);
-                res.status(200).json({ message: 'Please check your email for a verification code.' });
+                return res.status(201).json({
+                    message: "Please check your email for a verification code.",
+                    user: {
+                        id: newUser._id,
+                        username: newUser.username,
+                        email: newUser.email
+                    }
+                });
             });
+
         }
         catch (error) {
             console.error("Error during register:", error);
