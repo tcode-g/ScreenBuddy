@@ -28,6 +28,12 @@ exports.setApp = function(app, client)
                 return res.status(400).json({ message: "Email, username, and password are required." });
             }
 
+            // Check if user with this email or username already exists, it crashes otherwise
+            const existingUser = await User.findOne({ $or: [ { email }, { username } ] });
+            if (existingUser) {
+                return res.status(409).json({ message: "A user with this email or username already exists." });
+            }
+
             const newUser = new User({email:email, username:username, password:password, emailVerificationCode: "", emailVerificationCodeExpires: ""});
 
             
