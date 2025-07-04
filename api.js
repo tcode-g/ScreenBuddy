@@ -69,6 +69,7 @@ exports.setApp = function(app, client)
             };
 
             transporter.sendMail(mail, (error, info) => {
+                console.log(info.response);
                 if (error) {
                     console.error('Error sending email:', error);
                     return res.status(500).json({ message: 'Error sending verification email.' });
