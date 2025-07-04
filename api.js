@@ -114,11 +114,66 @@ exports.setApp = function(app, client)
                 
                 res.status(400).json({ message: 'Verification code has expired. Please request a new one.' });
             } else {
-                res.status(400).json({ message: 'Invalid verification code.' });
+                res.status(400).json({ message: 'Invalid verification code.'});
             }
         }
         catch (error) {
             console.error("Error during email verification:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
+    app.post('/api/verify-email/resend-verification-code', async (req, res, next) =>
+    {
+        try {
+            const { email } = req.body;
+
+            const user = await User.findOne({ email });
+
+            if(!user) {
+                return res.status(404).json({ message: 'User not found.' });
+            }
+
+            if(user.isEmailVerified) {
+                return res.status(200).json({ message: 'Email is already verified.' });
+            }
+
+            const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
+            user.emailVerificationCode = verificationCode
+            user.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
+
+            await user.save();
+
+            const mail = {
+                from: emailAcc,
+                to: email,
+                subject: 'Email Verification for Your Account',
+                html: `
+                    <p>Hello ${user.username},</p>
+                    <p>Here is your new verification code:</p>
+                    <h3>${verificationCode}</h3>
+                    <p>This code is valid for a limited time.</p>
+                    <p>If you did not request this, please ignore this email.</p>
+                    <p>Regards,</p>
+                    <p>ScreenBuddy</p>
+                `
+            };
+
+            transporter.sendMail(mail, (error, info) => {
+                console.log(info.response);
+                if (error) {
+                    console.error('Error sending email:', error);
+                    return res.status(500).json({ message: 'Error resending verification email.' });
+                }
+                console.log('Verification email sent:', info.response);
+                console.log(mail);
+                res.status(200).json({ message: 'New verification code has been sent.' });
+            });
+
+            
+        }
+        catch (error) {
+            console.error("Error during resend verification code:", error);
             res.status(500).json({ message: "An error occurred." });
         }
     });
