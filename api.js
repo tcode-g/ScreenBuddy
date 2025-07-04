@@ -9,6 +9,12 @@ const emailAcc = process.env.EMAIL_ACCOUNT
 require('dotenv').config();
 const emailPassword = process.env.EMAIL_PASSWORD
 
+const crypto = require('crypto');
+
+function generateSecureRandomToken(length = 32) {
+    return crypto.randomBytes(length).toString('base64url');
+}
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -48,8 +54,8 @@ exports.setApp = function(app, client)
             });
 
             const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
-            newUser.emailVerificationCode = verificationCode
-            newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
+            newUser.emailVerificationCode = verificationCode;
+            newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
 
             await newUser.save();
             console.log("step1");
@@ -211,6 +217,132 @@ exports.setApp = function(app, client)
         }
         catch (error) {
             console.error("Error during login:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
+    app.post('/api/forgot-password', async (req, res, next) => 
+    {
+        try {
+            const { email } = req.body;
+
+            const user = await User.findOne({ email });
+
+            if(!user.isEmailVerified) {
+                return res.status(401).json({ message: "Email not verified.", user: {id: user._id, email: user.email} });
+            }
+
+
+            let token;
+            const MAX_RETRIES = 5;
+
+            for (let i = 0; i < MAX_RETRIES; i++) {
+                token = generateSecureRandomToken(32);
+
+                try {
+                    user.passwordResetToken = token;
+                    user.passwordResetExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
+                    await user.save();
+                    break; // Exit the loop if save was successful
+                } catch (saveError) {
+                    // MongoDB error code for duplicate key is 11000
+                    if (saveError.code === 11000) {
+                        console.warn(`Attempt ${i + 1}/${MAX_RETRIES}: Token collision detected for user ${user.id}, regenerating...`);
+                        if (i === MAX_RETRIES - 1) {
+                            throw new Error('Failed to generate a unique token after multiple retries.');
+                        }
+                    } else {
+                        // Re-throw any other type of error immediately
+                        throw saveError;
+                    }
+                }
+            }
+            
+
+            const BASE_URL = process.env.NODE_ENV === 'local'
+            ? 'http://localhost:5000'
+            : '' // insert website name here
+
+            const resetLink = `${BASE_URL}/reset-password?token=${token}`;
+
+            const emailContent = `
+                Hello,
+
+                You requested a password reset for your account.
+                Please click on the following link to reset your password:
+
+                ${resetLink}
+
+                This link will expire in 15 minutes.
+                If you did not request this, please ignore this email.
+
+                Thank you,
+                ScreenBuddy
+            `;
+
+            const mail = {
+                from: emailAcc, 
+                to: user.email,
+                subject: 'Password Reset Request',
+                text: emailContent,
+                html: `<p>Hello,</p>
+                    <p>You requested a password reset for your account.</p>
+                    <p>Please click on the following link to reset your password:</p>
+                    <p><a href="${resetLink}">${resetLink}</a></p>
+                    <p>This link will expire in 15 minutes.</p>
+                    <p>If you did not request this, please ignore this email.</p>
+                    <p>Thank you,</p>
+                    <p>ScreenBuddy</p>`
+            };
+
+            transporter.sendMail(mail, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                    return res.status(500).json({ message: 'Error sending password reset email.' });
+                }
+
+                res.status(200).json({ message: 'Please check your email for a password reset link.' });
+            });
+        }
+        catch (error) {
+            console.error("Error during forgot password:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
+    app.post('/api/reset-password', async (req, res, next) => 
+    {
+        try {
+            const { token, newPassword } = req.body;
+
+            const user = await User.findOne({ passwordResetToken : token });
+
+            if(!user) {
+                return res.status(400).json({ message: 'User not found - Invalid token.'});
+            }
+
+
+            if(user.passwordResetExpires > new Date()) {
+                user.password = newPassword;
+                user.passwordResetToken = undefined;
+                user.passwordResetExpires = undefined;
+                await user.save();
+
+                return res.status(200).json({ message: 'Password has been reset.' });
+            } else if (user.passwordResetExpires <= new Date()) {
+                user.passwordResetToken = undefined;
+                user.passwordResetExpires = undefined;
+                await user.save();
+                
+                return res.status(400).json({ message: 'Token has expired. Please request a new one.' });
+            }
+            else {
+                return res.status(400).json({ message: 'Why are you seeing this? - Invalid token.'});
+            }
+
+        }
+        catch (error) {
+            console.error("Error during reset password:", error);
             res.status(500).json({ message: "An error occurred." });
         }
     });
