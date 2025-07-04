@@ -52,7 +52,7 @@ exports.setApp = function(app, client)
             newUser.emailVerificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes from now
 
             await newUser.save();
-
+            console.log("step1");
             const mail = {
                 from: emailAcc,
                 to: email,
@@ -74,6 +74,7 @@ exports.setApp = function(app, client)
                     return res.status(500).json({ message: 'Error sending verification email.' });
                 }
                 console.log('Verification email sent:', info.response);
+                console.log(mail);
                 res.status(200).json({ message: 'Please check your email for a verification code.' });
             });
         }
