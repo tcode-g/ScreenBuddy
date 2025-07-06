@@ -10,6 +10,8 @@ import DashBoardPage from './pages/DashBoardPage.tsx'; // TEMPORARY PAGE
 import DeniedPage from './pages/DeniedPage.tsx';
 import PrivateRoute from './components/PrivateRoute.tsx';
 import EmailVerification from './pages/EmailVerification.tsx';
+import ResetPage from './pages/ResetPage.tsx';
+
 
 function App() 
 {
@@ -23,6 +25,7 @@ function App()
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/denied" element={<DeniedPage />} />
         <Route path="/verify" element={<EmailVerification />} />
+        <Route path="/reset" element={<ResetPage />} />
         <Route path="/dashboard" element={<PrivateRoute><DashBoardPage /> </PrivateRoute>} /> {/* TEMPORARY PAGE */}
       </Routes>
     </Router>

@@ -55,6 +55,28 @@ a {
   color: #fd7e97;
 }
 
+.small-nav-link {
+  font-size: 1em;
+  font-weight: 500;
+  color: #F2F5EA;
+  text-decoration: inherit;
+}
+
+.small-nav-link:hover {
+  color: #fd7e97;
+}
+
+.small-nav-link-active {
+  font-size: 1em;
+  font-weight: 500;
+  color: #E75A7C;
+  text-decoration: inherit;
+}
+
+.small-nav-link-active:hover {
+  color: #fd7e97;
+}
+
 
 
 /* || LOGIN PAGE STYLES */

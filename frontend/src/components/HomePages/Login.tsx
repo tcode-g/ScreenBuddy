@@ -1,6 +1,7 @@
 import  React, {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {NavLink} from 'react-router-dom'; 
 
 function Login()
 {
@@ -49,6 +50,8 @@ function Login()
     {
       setPassword(event.target.value);
     }
+
+    
   
   return (
     <div className="info-container">
@@ -57,7 +60,13 @@ function Login()
         <input type="text" id="loginName" placeholder="Username" className="info-input" onChange={handleSetLoginName} />
         <input type="password" id="loginPassword" placeholder="Password" className="info-input" onChange={handleSetLoginPassword} />
         <input type="submit" value="Log In" className="info-button" />
-        <a className="info-link" id="loginForgetPassword">Forget password? (DOES NOTHING)</a>
+        
+
+        <nav className="resetNav">
+        <NavLink to="/reset" className={({ isActive }) => (isActive ? "small-nav-link-active" : "small-nav-link")}>Forget password?</NavLink>
+
+      </nav>
+
         <span id="loginResult" className="info-result">{loginResult}</span>
       </form>
     </div>
