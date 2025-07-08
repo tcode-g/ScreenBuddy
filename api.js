@@ -4,18 +4,9 @@ const auth = require('./middleware/auth.js');
 const User = require("./models/user.js");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const emailAcc = process.env.EMAIL_ACCOUNT
 require('dotenv').config();
-const emailPassword = process.env.EMAIL_PASSWORD
+const { sendVerificationEmail } = require("./emails.js");
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: emailAcc, 
-        pass: emailPassword
-    }
-});
 
 exports.setApp = function(app, client)
 {   
@@ -38,14 +29,14 @@ exports.setApp = function(app, client)
 
             
             
-            res.status(201).json({
-                message: "User registered successfully!",
-                user: {
-                    id: newUser._id,
-                    username: newUser.username,
-                    email: newUser.email
-                }
-            });
+            // res.status(201).json({
+            //     message: "User registered successfully!",
+            //     user: {
+            //         id: newUser._id,
+            //         username: newUser.username,
+            //         email: newUser.email
+            //     }
+            // });
 
             const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
             newUser.emailVerificationCode = verificationCode
@@ -53,31 +44,31 @@ exports.setApp = function(app, client)
 
             await newUser.save();
             console.log("step1");
-            const mail = {
-                from: emailAcc,
-                to: email,
-                subject: 'Email Verification for Your Account',
-                html: `
-                    <p>Hello ${username},</p>
-                    <p>Thank you for registering with us! To complete your registration, please use the following verification code:</p>
-                    <h3>${verificationCode}</h3>
-                    <p>This code is valid for a limited time.</p>
-                    <p>If you did not request this, please ignore this email.</p>
-                    <p>Regards,</p>
-                    <p>ScreenBuddy</p>
-                `
-            };
 
-            transporter.sendMail(mail, (error, info) => {
-                console.log(info.response);
-                if (error) {
-                    console.error('Error sending email:', error);
-                    return res.status(500).json({ message: 'Error sending verification email.' });
-                }
-                console.log('Verification email sent:', info.response);
-                console.log(mail);
-                res.status(200).json({ message: 'Please check your email for a verification code.' });
-            });
+            let emailStatus = await sendVerificationEmail(username, email, verificationCode);
+            if (emailStatus.success) {
+                return res.status(200).json({
+                  message: "User registered and Verification email sent successfully.",
+                  user: {
+                    id: newUser._id,
+                    username: newUser.username,
+                    email: newUser.email,
+                  },
+                });
+            } else {
+                return res.status(500).json({ message: emailStatus.message });
+            }
+
+            // transporter.sendMail(mail, (error, info) => {
+            //     console.log(info.response);
+            //     if (error) {
+            //         console.error('Error sending email:', error);
+            //         return res.status(500).json({ message: 'Error sending verification email.' });
+            //     }
+            //     console.log('Verification email sent:', info.response);
+            //     console.log(mail);
+            //     res.status(200).json({ message: 'Please check your email for a verification code.' });
+            // });
         }
         catch (error) {
             console.error("Error during register:", error);
