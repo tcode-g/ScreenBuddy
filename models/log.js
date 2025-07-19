@@ -1,41 +1,43 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const LogSchema = new Schema({
+const LogSchema = new Schema(
+  {
     // MongoDB has automatically creates a _id field for each
 
     userID: {
-        type: ObjectId,
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
 
     goalID: {
-        type: ObjectId,
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
 
     date: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
 
     durationMinutes: {
-        type: Number,
-        default: 0,
-        min: 0
+      type: Number,
+      default: 0,
+      min: 0,
     },
 
     goalMet: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
 
     xpEarned: {
-        type: Number,
-        default: 0
-    }
-    
-}, {timestamps: true});
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
 
 LogSchema.pre('save', async function(next) {
   try {

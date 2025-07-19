@@ -15,6 +15,10 @@ function generateSecureRandomToken(length = 32) {
     return crypto.randomBytes(length).toString('base64url');
 }
 
+const buddyRoutes = require('./routes/buddyRoutes.js');
+const goalRoutes = require('./routes/goalRoutes.js');
+const activityRoutes = require('./routes/activityRoutes.js');
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -365,5 +369,17 @@ exports.setApp = function(app, client)
             res.status(500).json({ message: "An error occurred." });
         }
     });
+
+    // buddy api endpoints
+  app.use("/api/buddy", buddyRoutes); 
+  
+  // goals api endpoints
+  app.use("/api/goals", goalRoutes);
+
+
+  // screentime entries
+  app.use("/api/logs", activityRoutes);
+
+  // statistics endpoints
 
 }

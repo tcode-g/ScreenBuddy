@@ -1,25 +1,32 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const GoalSchema = new Schema({
+const GoalSchema = new Schema(
+  {
     // MongoDB has automatically creates a _id field for each
 
     userID: {
-        type: ObjectId,
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+
+    title: {
+      type: String,
+      required: true,
     },
 
     targetMinutes: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
 
     isActive: {
-        type: Boolean,
-        default: false
-    }
-
-}, {timestamps: true});
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
 
 // Only allows one goal to have isActive be true
