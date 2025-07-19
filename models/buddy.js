@@ -32,8 +32,24 @@ const BuddySchema = new Schema(
       default: 10,
       min: 0,
     },
+
+    isEquipped: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
+);
+
+// Only allows one buddy to be equipped
+BuddySchema.index(
+  { isEquipped: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      isEquipped: true,
+    },
+  }
 );
 
 const Buddy = mongoose.model('buddy', BuddySchema, 'buddies');
