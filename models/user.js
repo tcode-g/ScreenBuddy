@@ -44,6 +44,12 @@ const UserSchema = new Schema({
     
     passwordResetExpires: Date,
 
+    coins: {
+        type: Number,
+        default: 0,
+        min: 0 // No debt
+    },
+
 }, {timestamps: true});
 
 //middleware to hash password
