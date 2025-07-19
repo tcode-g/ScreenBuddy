@@ -40,13 +40,20 @@ router.post("/equip", auth, async (req, res, next) => {
     }
 
     const { buddyId } = req.body;
-    // check if buddy exists
+    
+    const buddy = await Buddy.findById(buddyId);
 
-    // check if buddy is owned by user
+    if(!buddy) {
+      return res.status(400).json({ message: "Buddy not found." });
+    }
 
-    // unequip current buddy if any
+    const prevBuddy = await Buddy.findOne({ isEquipped: true });
+    if(prevBuddy) {
+      prevBuddy.IsEqupped = false;
+    }
+    // else nothing to do, just equip the buddy!
 
-    // equip the new buddy
+    buddy.isEquipped = true;
 
     return res.status(200).json({
       message: "Buddy equipped successfully.",
@@ -54,9 +61,9 @@ router.post("/equip", auth, async (req, res, next) => {
     });
     
   } catch (error) {
-    console.error("Error fetching buddies:", error);
+    console.error("Error equipping buddy:", error);
     res.status(500).json({
-      message: "An error occurred while fetching buddies.",
+      message: "An error occurred while equpiping a buddy.",
     });
   }
 });
