@@ -241,3 +241,348 @@ paths:
             properties:
               message:
                 type: string
+  /goal/create:
+    post:
+      tags:
+        - Goal
+      summary: Create a new goal
+      description: Creates a new goal for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - title
+              - minutes
+            properties:
+              title:
+                type: string
+              minutes:
+                type: integer
+      responses:
+        201:
+          description: Goal created successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              goal:
+                type: object
+        400:
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /goal/status/{name}:
+    get:
+      tags:
+        - Goal
+      summary: Get status of a goal by name
+      description: Returns the status of a goal for the authenticated user.
+      parameters:
+        - in: path
+          name: name
+          required: true
+          type: string
+          description: Goal name
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+      responses:
+        200:
+          description: Goal status fetched successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              goal:
+                type: object
+        400:
+          description: User or goal not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /goal/all:
+    get:
+      tags:
+        - Goal
+      summary: Get all goals
+      description: Returns all goals for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+      responses:
+        200:
+          description: Goals fetched successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              goals:
+                type: array
+                items:
+                  type: object
+        400:
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /goal/active:
+    get:
+      tags:
+        - Goal
+      summary: Get active goal
+      description: Returns the active goal for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+      responses:
+        200:
+          description: Active goal fetched successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              goal:
+                type: object
+        400:
+          description: User not found or no active goal
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /goal/remove:
+    post:
+      tags:
+        - Goal
+      summary: Remove a goal
+      description: Removes a goal for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - goalId
+            properties:
+              goalId:
+                type: string
+      responses:
+        200:
+          description: Goal removed successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        400:
+          description: User or goal not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /buddy/buy:
+    post:
+      tags:
+        - Buddy
+      summary: Buy a buddy
+      description: Buys a buddy for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - buddyId
+            properties:
+              buddyId:
+                type: string
+      responses:
+        200:
+          description: Buddy bought successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              buddy:
+                type: string
+        400:
+          description: Invalid user
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /buddy/equip:
+    post:
+      tags:
+        - Buddy
+      summary: Equip a buddy
+      description: Equips a buddy for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - buddyId
+            properties:
+              buddyId:
+                type: string
+      responses:
+        200:
+          description: Buddy equipped successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              buddy:
+                type: string
+        400:
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  /buddy/all:
+    get:
+      tags:
+        - Buddy
+      summary: Get all buddies
+      description: Returns all buddies for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+      responses:
+        200:
+          description: Buddies fetched successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              buddies:
+                type: array
+                items:
+                  type: object
+        400:
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
