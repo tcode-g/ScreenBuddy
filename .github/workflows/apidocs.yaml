@@ -5,7 +5,7 @@ on:
   #     - main
   push:
     branches:
-      - main
+      - swagger
      
 jobs:
   deploy_backend:
