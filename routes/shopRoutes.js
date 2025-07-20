@@ -13,7 +13,7 @@ router.post("/buy", auth, async (req, res, next) => {
       return res.status(400).json({ message: "Invalid user."});
     }
     
-    const shopItem = await ShopItem.findById(shopItemIdToBuy);
+    const shopItem = await ShopItem.findById(itemID);
     if (!shopItem) {
         return res.status(404).json({ message: 'Shop item not found.' });
     }
