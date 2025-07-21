@@ -32,7 +32,7 @@ router.post("/equip", auth, async (req, res) => {
     }
 
     itemToEquip.isEquipped = true;
-    await itemToEquip.save({ session });
+    await itemToEquip.save();
 
     res.status(200).json({ message: "Item equipped successfully." });
   } catch (error) {
