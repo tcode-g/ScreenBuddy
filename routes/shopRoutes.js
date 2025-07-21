@@ -71,7 +71,7 @@ router.post("/buy", auth, async (req, res, next) => {
   }
 });
 
-router.get("/all", auth, async (req, res) => {
+router.get("/shop", auth, async (req, res) => {
   try {
     const items = await ShopItem.find({});
     res.status(200).json({ message: "Shop items fetched successfully.", items: items });
