@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: ScreenBuddy API
   description: API documentation for ScreenBuddy backend endpoints.
-host: localhost:5000
+host: cometcontacts4331.com:5000
 basePath: /api
 schemes:
   - http
