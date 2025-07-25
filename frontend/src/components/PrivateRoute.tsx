@@ -1,10 +1,9 @@
-import type { ReactNode } from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate, Outlet} from 'react-router-dom';
 
-const PrivateRoute = ({children}: {children: ReactNode }) => {
+const PrivateRoute = () => {
     const token = localStorage.getItem('token');
     console.log(token);
-    return token ? children : <Navigate to="/denied" />; // access denied.
+    return token ? <Outlet /> : <Navigate to="/denied" />; // access denied.
 
 };
 

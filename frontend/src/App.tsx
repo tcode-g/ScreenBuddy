@@ -11,7 +11,10 @@ import DeniedPage from './pages/DeniedPage.tsx';
 import PrivateRoute from './components/PrivateRoute.tsx';
 import EmailVerification from './pages/EmailVerification.tsx';
 import ResetPage from './pages/ResetPage.tsx';
-
+import SettingPage from './pages/SettingPage.tsx';
+import BuddyPage from './pages/BuddyPage.tsx';
+import ShopPage from './pages/ShopPage.tsx';
+import StatsPage from './pages/StatsPage.tsx';
 
 function App() 
 {
@@ -26,7 +29,13 @@ function App()
         <Route path="/denied" element={<DeniedPage />} />
         <Route path="/verify" element={<EmailVerification />} />
         <Route path="/reset" element={<ResetPage />} />
-        <Route path="/dashboard" element={<PrivateRoute><DashBoardPage /> </PrivateRoute>} /> {/* TEMPORARY PAGE */}
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route index element={<DashBoardPage />} />
+          <Route path="settings" element={<SettingPage />} />
+          <Route path="buddy" element={<BuddyPage />} />
+          <Route path="stats" element={<StatsPage />} />
+          <Route path="shop" element={<ShopPage />} />
+        </Route> 
       </Routes>
     </Router>
   );

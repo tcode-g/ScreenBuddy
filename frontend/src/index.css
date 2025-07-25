@@ -218,7 +218,7 @@ body {
   border-radius: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   min-height: 50vh;
   min-width: 100vh;
@@ -273,6 +273,25 @@ body {
   .info-link {
     font-size: 0.85em;
   }
+
+
+
+  /* new stuff */
+  
+
+  #ad21.profile-sidebar {
+    position: fixed;
+    width: 282px;
+    height: 552px;
+    right: 0;
+    box-sizing: border-box;
+    max-width: 282px;
+    border: 1px solid red;
+    display: block;
+    opacity: 1;
+    z-index: 999;
+  }
+ 
 }
 
 
