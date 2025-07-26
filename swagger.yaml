@@ -241,7 +241,8 @@ paths:
             properties:
               message:
                 type: string
-  /goal/create:
+  
+  /goals/create:
     post:
       tags:
         - Goal
@@ -291,18 +292,18 @@ paths:
               message:
                 type: string
 
-  /goal/status/{name}:
+  /goals/status/{id}:
     get:
       tags:
         - Goal
-      summary: Get status of a goal by name
+      summary: Get status of a goal by id
       description: Returns the status of a goal for the authenticated user.
       parameters:
         - in: path
-          name: name
+          name: id
           required: true
           type: string
-          description: Goal name
+          description: Goal id
         - in: header
           name: Authorization
           required: true
@@ -333,7 +334,7 @@ paths:
               message:
                 type: string
 
-  /goal/all:
+  /goals/all:
     get:
       tags:
         - Goal
@@ -372,7 +373,7 @@ paths:
               message:
                 type: string
 
-  /goal/active:
+  /goals/active:
     get:
       tags:
         - Goal
@@ -409,7 +410,7 @@ paths:
               message:
                 type: string
 
-  /goal/remove:
+  /goals/remove:
     post:
       tags:
         - Goal
@@ -454,6 +455,42 @@ paths:
               message:
                 type: string
 
+  /goals/update:
+    post:
+      tags:
+        - Goal
+      summary: SB Update Goal Status
+      description: Updates the active status of a goal.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - goalId
+              - activeStatus
+            properties:
+              goalId:
+                type: string
+                example: 68848f3e18e0f7956c5664cb
+              activeStatus:
+                type: boolean
+                example: true
+      responses:
+        200:
+          description: Goal status updated successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  
   /buddy/buy:
     post:
       tags:
@@ -586,3 +623,40 @@ paths:
             properties:
               message:
                 type: string
+
+
+  /logs/add:
+    post:
+      tags:
+        - Logs
+      summary: SB Screen Off
+      description: SB Screen Off event logging.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - event
+            properties:
+              event:
+                type: string
+                enum:
+                  - screen_off
+                  - screen_on
+      responses:
+        200:
+          description: Screen off event logged successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+
+  
