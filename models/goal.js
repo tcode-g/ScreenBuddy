@@ -20,18 +20,38 @@ const GoalSchema = new Schema(
       required: true,
     },
 
+    completedMinutes: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
     isActive: {
       type: Boolean,
       default: false,
     },
+
+    // updatedAt: {
+    //   type: Date,
+    //   default: Date.now,
+    // },
   },
   { timestamps: true }
 );
 
+GoalSchema.statics.createDefaultGoal = function(userID) {
+  return this.create({
+    userID,
+    title: "60 Mins Goal",
+    targetMinutes: 60,
+    completedMinutes: 0,
+    isActive: true
+  });
+};
 
 // Only allows one goal to have isActive be true
 GoalSchema.index(
-  { isActive: 1 },
+  { isActive: 1, userID: 1 },
   {
     unique: true,
     partialFilterExpression: {

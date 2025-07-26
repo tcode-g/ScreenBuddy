@@ -18,6 +18,9 @@ function generateSecureRandomToken(length = 32) {
 const buddyRoutes = require('./routes/buddyRoutes.js');
 const goalRoutes = require('./routes/goalRoutes.js');
 const activityRoutes = require('./routes/activityRoutes.js');
+const Goal = require('./models/goal.js');
+const Log = require('./models/log.js');
+const Buddy = require('./models/buddy.js');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -113,14 +116,54 @@ exports.setApp = function(app, client)
             if (user.emailVerificationCode === code && user.emailVerificationCodeExpires > new Date()) {
                 user.isEmailVerified = true;
                 user.emailVerificationCode = undefined;
-                emailVerificationCodeExpires = undefined;
+                user.emailVerificationCodeExpires = undefined;
                 await user.save();
 
                 res.status(200).json({ message: 'Email has been verified.' });
+
+                // email verified, create default goal, buddy, and log
+                const defaultGoal = Goal.createDefaultGoal(user._id);
+                const defaultBuddy = Buddy.createDefaultBuddy(user._id);
+
+                defaultGoal.save();
+                defaultBuddy.save();
+
+                const defaultLog = Log.createLogEntry(
+                    user._id,
+                    defaultGoal._id,
+                    "screen_on",
+                    0
+                );
+                // defaultLog.save();
+
+
+                // Promise.all([defaultGoal, defaultBuddy])
+                // .then(([goal, buddy]) => {
+                //     return Promise.all([
+                //         goal.save(),
+                //         buddy.save()
+                //     ]).then(([savedGoal, savedBuddy]) => {
+                //         // Now save the log with the saved goal's _id
+                //         const defaultLog = Log.createLogEntry(
+                //           user._id,
+                //           savedGoal._id,
+                //           "screen_on",
+                //           0
+                //         );
+                //         // return defaultLog.save();
+                //     });
+                // })
+                // .then(() => {
+                //     console.log("Default goal, buddy, and log created and saved successfully.");
+                // })
+                // .catch(err => {
+                //     console.error("Error creating or saving default objects:", err);
+                // });
             } else if (user.emailVerificationCodeExpires <= new Date()) {
                 user.emailVerificationCode = undefined;
                 user.emailVerificationCodeExpires = undefined;
                 await user.save();
+
                 
                 res.status(400).json({ message: 'Verification code has expired. Please request a new one.' });
             } else {
@@ -371,14 +414,14 @@ exports.setApp = function(app, client)
     });
 
     // buddy api endpoints
-  app.use("/api/buddy", buddyRoutes); 
+  app.use("/api/buddy", auth, buddyRoutes); 
   
   // goals api endpoints
-  app.use("/api/goals", goalRoutes);
+  app.use("/api/goals", auth, goalRoutes);
 
 
   // screentime entries
-  app.use("/api/logs", activityRoutes);
+  app.use("/api/logs", auth, activityRoutes);
 
   // statistics endpoints
 

@@ -51,6 +51,32 @@ router.get("/status/:name", auth, async (req, res) => {
   }
 });
 
+router.post("/update", auth, async (req, res) => {
+  try {
+    const { goalId, activeStatus } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ message: "User not found." });
+    }
+
+    const goal = await Goal.findOne({ _id: goalId, userID: user._id });
+    if (!goal) {
+      return res.status(400).json({ message: "Goal not found." });
+    }
+
+    goal.isActive = activeStatus; // toggle active status
+    await goal.save();
+
+    res.status(200).json({ message: "Goal updated successfully.", goal: goal });
+  } catch (error) {
+    console.error("Error updating goal:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the goal." });
+  }
+});
+    
+
 
 router.get("/all", auth, async (req, res) => { 
   try {

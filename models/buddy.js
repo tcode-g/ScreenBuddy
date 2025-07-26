@@ -22,12 +22,12 @@ const BuddySchema = new Schema(
     },
 
     xp: {
-      type: Number,
+      type: mongoose.Schema.Types.Double,
       default: 0,
       min: 0,
     },
 
-    xpToNextLevel: {
+    xpToLevelUp: {
       type: Number,
       default: 10,
       min: 0,
@@ -36,7 +36,7 @@ const BuddySchema = new Schema(
     isEquipped: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   { timestamps: true }
 );
@@ -51,6 +51,20 @@ BuddySchema.index(
     },
   }
 );
+
+BuddySchema.statics.createBuddy = function(userID, name, equipped = false) {
+  return this.create({
+    userID,
+    name,
+    level: 1,
+    xp: 0,
+    xpToLevelUp: 10,
+    isEquipped: equipped,
+  });
+};
+BuddySchema.statics.createDefaultBuddy = function(userID, name = "BuddyO'Pal") {
+  return this.createBuddy(userID, name, true);
+};
 
 const Buddy = mongoose.model('buddy', BuddySchema, 'buddies');
 
