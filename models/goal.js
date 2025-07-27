@@ -26,9 +26,23 @@ const GoalSchema = new Schema(
       min: 0,
     },
 
+    // startTime: { // minutes from start of the day
+    //   type: Number,
+    //   default: 0,
+    // },
+
+    // endTime: { // minutes from start of the day
+    //   type: Number,
+    //   default: 0,
+    // },
+
     isActive: {
       type: Boolean,
       default: false,
+    },
+    lastCompletedDate: {
+      type: Date,
+      default: null,
     },
 
     // updatedAt: {
@@ -47,6 +61,13 @@ GoalSchema.statics.createDefaultGoal = function(userID) {
     completedMinutes: 0,
     isActive: true
   });
+  // return this.create({
+  //   userID,
+  //   title: "12PM - 1PM Goal",
+  //   startTime: 720, // 12 pm (60 * 12 = 720)
+  //   endTime: 780, // 1 pm (60 * 13 = 780)
+  //   isActive: true
+  // });
 };
 
 // Only allows one goal to have isActive be true

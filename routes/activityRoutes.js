@@ -4,25 +4,59 @@ const User = require("../models/user.js");
 const Goal = require("../models/goal.js");
 const Log = require("../models/log.js");
 const Buddy = require("../models/buddy.js");
+const dailyScreentime = require("../models/dailyScreen.js");
 
 
-async function saveActivityLog(user, event, activityData) {
+async function saveActivityLog(user, event, eventTimestamp) {
   // This function should save the activity log to the database
   // For now, we will just log it to the console
-  console.log(`User: ${user._id}, Event: ${event}, Data: ${activityData}`);
-
-  
-  
+  console.log(`User: ${user._id}, Event: ${event}, Data: ${eventTimestamp}`);
   
   let currentGoal = await Goal.findOne({ userID: user._id, isActive: true });
   let noActiveGoal = false;
   if (!currentGoal) { // this should never happen  --------just in case create the goal if it doesn't exist
     console.log("No active goal found for user.");
     
-    currentGoal = await Goal.findOne({ userID: user._id }).sort({ updatedAt: -1 });    
+    // check for a recent goal that is not active by lastCompletedDate
+    currentGoal = await Goal.findOne({ userID: user._id }).sort({
+      lastCompletedDate: -1,
+    });
+
+    // check if lastCompletedDate is within the last 3 days
+    if (currentGoal && currentGoal.lastCompletedDate) {
+      // const threeDaysAgo = new Date();
+      // threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+      // if (currentGoal.lastCompletedDate < threeDaysAgo) {
+      //   currentGoal.isActive = true; // set the goal to active
+      //   // currentGoal.completedMinutes = 0; // reset completed minutes
+
+      // check if lastCompletedDate wasn't today
+      const today = new Date(eventTimestamp);
+      const lastCompletedDate = new Date(currentGoal.lastCompletedDate);
+
+      today.setHours(0, 0, 0, 0); // set to
+      lastCompletedDate.setHours(0, 0, 0, 0); // set to start of the day
+
+      if (lastCompletedDate.getTime() != today.getTime()) {
+        console.log("Recent goal found, activating it.");
+        currentGoal.isActive = true; // set the goal to active
+        currentGoal.completedMinutes = 0; // reset completed minutes
+      } else {
+        console.log("No recent goal found for user.");
+        currentGoal = await Goal.findOne({ userID: user._id }).sort({ updatedAt: -1 });    
+        noActiveGoal = true; // set flag to indicate no active goal found
+      }
+    } else {
+      currentGoal = await Goal.findOne({ userID: user._id }).sort({
+        updatedAt: -1,
+      });
+      noActiveGoal = true; // set flag to indicate no active goal found
+    }
+
+    
     // currentGoal = Goal.createDefaultGoal(user._id);
     
-    noActiveGoal = true; // set flag to indicate no active goal found
+    // noActiveGoal = true; // set flag to indicate no active goal found
     
     // currentGoal = new Goal({
       //   userID: user._id,
@@ -40,7 +74,7 @@ async function saveActivityLog(user, event, activityData) {
   const logEntry = new Log({
     userID: user._id,
     goalID: currentGoal._id,
-    date: new Date(),
+    date: eventTimestamp,
     event: event,
     durationMinutes: 0, 
     goalMet: false,
@@ -49,32 +83,85 @@ async function saveActivityLog(user, event, activityData) {
   // console.log(`Log entry created: ${logEntry}`);
   // Get previous log entry
   const previousLog = await Log.findOne({ userID: user._id }).sort({ date: -1 });
-  let timeSinceLastLog = previousLog ? (new Date() - previousLog.date) / 60000 : 0; // in minutes
+  let timeSinceLastLog = previousLog ? (eventTimestamp - previousLog.date) / 60000 : 0; // in minutes
 
-  timeSinceLastLog *= 60; 
+  // timeSinceLastLog *= 60; // this is to inflate the reward for testing purposes
 
 
   // log xpEarned
   logEntry.xpEarned = timeSinceLastLog / 5; 
   logEntry.durationMinutes = timeSinceLastLog;
+
   
-  if (event === "screen_off" || noActiveGoal) {
-    // if screen_off, dont update
+
+  if (event === "screen_off" ) {
+
+    console.log("Screen off for user :", user._id, "Duration:", timeSinceLastLog, "minutes");
+    // daily screentime metrics
+    // check if (eventTimestamp: Date - timeSinceLastLog: minutes) is the same day
+    const startOfEvent = new Date(eventTimestamp);
+    startOfEvent.setMinutes(eventTimestamp.getMinutes() - timeSinceLastLog);
+
+    // if startOfEvent isn't the same day as today, update previous day's screentime
+    const startOfToday = new Date(eventTimestamp);
+    startOfToday.setHours(0, 0, 0, 0);
+
+    if (startOfEvent.getTime() < startOfToday.getTime()) {
+      console.log("Updating screentime for previous day:", startOfEvent);
+      // some of event time happened yesterday
+      // get only the time that happened yesterday in minutes
+      const yesterdayDuration = Math.floor(
+        (startOfToday.getTime() - startOfEvent.getTime()) / 60000
+      );
+      // update yesterday's screentime
+
+      const yesterday = new Date(startOfEvent);
+      yesterday.setHours(0, 0, 0, 0);
+
+      // update yesterdays screentime regardless if theres an entry or not
+      await dailyScreentime.findOneAndUpdate(
+        { userID: user._id, date: yesterday },
+        { $inc: { duration: yesterdayDuration } },
+        { upsert: true, new: true }
+      );
+
+      timeSinceLastLog -= yesterdayDuration; // reduce the time since last log by the yesterday's duration
+
+    }
+    // update today's screentime
+    await dailyScreentime.findOneAndUpdate(
+      { userID: user._id, date: startOfToday },
+      { $inc: { duration: timeSinceLastLog } },
+      { upsert: true, new: true }
+    );
+
+    console.log("Screen off logged for user:", user._id, "Duration:", timeSinceLastLog, "minutes");
+
     logEntry.save(); // save log entry
     return;
   }
 
+  if (noActiveGoal) {
+    logEntry.save();
+
+    return;
+  }
+
   if (!previousLog || previousLog.event === event) {
-    // if the previous log is the same event, don't update
+    console.log("No previous log or same event, skipping update.");
+    logEntry.save(); // save log entry
+    // if the previous log is the same event (screen_on), don't update
     return;
   }
 
 
 
   // update the current goal's completed minutes
-  currentGoal.completedMinutes += logEntry.durationMinutes;
+  // currentGoal.completedMinutes += logEntry.durationMinutes;
+  currentGoal.completedMinutes += timeSinceLastLog;
   if (currentGoal.completedMinutes >= currentGoal.targetMinutes) {
     currentGoal.isActive = false; // deactivate the goal if target is met
+    currentGoal.lastCompletedDate = eventTimestamp; // set last met date
     logEntry.goalMet = true; // mark the log entry as goal met
     user.coins += currentGoal.targetMinutes; // reward user with coins
     user.save(); // save user coins
