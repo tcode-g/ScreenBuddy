@@ -20,7 +20,7 @@ function ResetPassword()
     
     try
     {
-      const response = await axios.post('https://cometcontacts4331/api/forgot-password', obj);
+      const response = await axios.post('https://cometcontacts4331.com/api/forgot-password', obj);
       // const response = await axios.post('http://localhost:5000/api/forgot-password', obj);
       //localStorage.getItem('token_data');
       console.log('whyyy');

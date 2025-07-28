@@ -39,11 +39,11 @@ function DashBoardBody() {
             }
 
             try {
-                const response = await axios.get(`https://cometcontacts4331/api/profile/${userId}`, {
+                const response = await axios.get(`https://cometcontacts4331.com/api/profile/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const goalResponse = await axios.get(`https://cometcontacts4331/api/goals/active/`, {
+                const goalResponse = await axios.get(`https://cometcontacts4331.com/api/goals/active/`, {
                     headers: { Authorization: `Bearer ${token}` },
                     validateStatus: () => true
                 });

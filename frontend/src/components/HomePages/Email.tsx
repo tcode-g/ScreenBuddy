@@ -22,7 +22,7 @@ function Email()
     
     try
     {
-      const response = await axios.post('https://cometcontacts4331/api/verify-email', obj);
+      const response = await axios.post('https://cometcontacts4331.com/api/verify-email', obj);
       // const response = await axios.post('http://localhost:5000/api/verify-email', obj);
       //localStorage.getItem('token_data');
       console.log('whyyy');
