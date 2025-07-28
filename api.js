@@ -307,7 +307,7 @@ exports.setApp = function(app, client)
             }
             
 
-            const BASE_URL = 'https://cometcontacts4331.com/'
+            const BASE_URL = 'https://cometcontacts4331.com'
 
             const resetLink = `${BASE_URL}/reset/${token}`;
 
