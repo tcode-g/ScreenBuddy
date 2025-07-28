@@ -8,6 +8,7 @@ function Reset()
     const [resetResult, setResetResult] = useState('');
     const [resPassword, setResPassword] = React.useState('');
     const [resConfPassword, setResConfPassword] = React.useState('');
+    const {token} = useParams();
     const navigate = useNavigate();
 
     async function doReset(event:any) : Promise<void>
@@ -18,11 +19,8 @@ function Reset()
             setResetResult('password does not match confirmation field.');
         return;
     }
-        
-        const {token} = useParams();
 
-
-        var obj = {token: token, password: resPassword};
+    var obj = {token: token, password: resPassword};
         try{
             const response = await axios.post('https://cometcontacts4331/api/reset-password', obj);
             console.log(response);
