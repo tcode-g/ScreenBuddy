@@ -22,7 +22,7 @@ function Profile()
                 console.log(token);
                 console.log(userId);
                 console.log('header: ' , `Bearer ${token}`);
-                const response = await axios.get(`https://cometcontacts4331/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
+                const response = await axios.get(`https://cometcontacts4331.com/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
                 // const response = await axios.get(`http://localhost:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
                 console.log(response.data);
                 setProfile(response.data);
