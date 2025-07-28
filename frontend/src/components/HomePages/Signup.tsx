@@ -33,7 +33,7 @@ function Signup()
       
       
       if(response.status === 201){
-        setRegResult('Signup sucessful');
+        setRegResult('Signup successful');
         localStorage.setItem('username', response.data.user.username);
         localStorage.setItem('email', response.data.user.email);
         console.log(response);
