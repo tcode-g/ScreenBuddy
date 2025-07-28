@@ -26,7 +26,7 @@ function Signup()
     
     try
     {
-      const response = await axios.post('https://172.233.171.46:5000/api/register', obj);
+      const response = await axios.post('https://cometcontacts4331/api/register', obj);
       // const response = await axios.post('http://localhost:5000/api/register', obj);
       //localStorage.getItem('token_data');
       console.log('whyyy');
