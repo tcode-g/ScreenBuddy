@@ -22,7 +22,7 @@ function Reset()
 
     var obj = {token: token, password: resPassword};
         try{
-            const response = await axios.post('https://cometcontacts4331/api/reset-password', obj);
+            const response = await axios.post('https://cometcontacts4331.com/api/reset-password', obj);
             console.log(response);
 
             if(response.status === 200 ){
