@@ -13,7 +13,15 @@ function Reset()
     async function doReset(event:any) : Promise<void>
     {
         event.preventDefault();
+        
+        if(resPassword !== resConfPassword){
+            setResetResult('password does not match confirmation field.');
+        return;
+    }
+        
         const {token} = useParams();
+
+
         var obj = {token: token, password: resPassword};
         try{
             const response = await axios.post('https://cometcontacts4331/api/reset-password', obj);
@@ -47,7 +55,7 @@ function Reset()
                 <span className="info-title">Reset Password</span>
                 <input type="password" id="resPassword" placeholder="Password" className="info-input" onChange={handleSetRegPassword} />
                 <input type="password" id="resConfPassword" placeholder="Confirm Password" className="info-input" onChange={handleSetRegConfPassword} />
-                <input type="submit" value="Sign Up" className="info-button" />
+                <input type="submit" value="Reset" className="info-button" />
                 <span id="resetResult" className="info-result">{resetResult}</span>
             </form>
         </div>
