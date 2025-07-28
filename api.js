@@ -395,6 +395,30 @@ exports.setApp = function(app, client)
         }
     });
 
+    app.get('/api/user', auth, async (req, res, next) =>
+    {
+        try {
+            const user = await User.findById(req.user.id).select('-password');
+            if (!user) {
+                return res.status(404).json({ message: "User not found." });
+            }
+            
+            res.status(200).json({
+                message: "User found",
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    coins: user.coins,
+                }
+            });
+        }
+        catch (error) {
+            console.error("Error during fetch:", error);
+            res.status(500).json({ message: "An error occurred." });
+        }
+    });
+
     app.get('/api/profile/:id', auth, async (req, res, next) =>
     {
         try {
