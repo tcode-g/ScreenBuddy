@@ -39,11 +39,11 @@ function DashBoardBody() {
             }
 
             try {
-                const response = await axios.get(`http://172.233.171.46:5000/api/profile/${userId}`, {
+                const response = await axios.get(`https://172.233.171.46:5000/api/profile/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const goalResponse = await axios.get(`http://localhost:5000/api/goals/active/${userId}`, {
+                const goalResponse = await axios.get(`https://localhost:5000/api/goals/active/${userId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                     validateStatus: () => true
                 });
