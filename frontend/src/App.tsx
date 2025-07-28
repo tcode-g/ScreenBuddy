@@ -11,6 +11,7 @@ import DeniedPage from './pages/DeniedPage.tsx';
 import PrivateRoute from './components/PrivateRoute.tsx';
 import EmailVerification from './pages/EmailVerification.tsx';
 import ResetPage from './pages/ResetPage.tsx';
+import ResetPasswordFormPage from './pages/ResetPasswordFormPage.tsx';
 import SettingPage from './pages/SettingPage.tsx';
 import BuddyPage from './pages/BuddyPage.tsx';
 import ShopPage from './pages/ShopPage.tsx';
@@ -29,6 +30,7 @@ function App()
         <Route path="/denied" element={<DeniedPage />} />
         <Route path="/verify" element={<EmailVerification />} />
         <Route path="/reset" element={<ResetPage />} />
+        <Route path="/reset/:token" element={<ResetPasswordFormPage />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route index element={<DashBoardPage />} />
           <Route path="settings" element={<SettingPage />} />
