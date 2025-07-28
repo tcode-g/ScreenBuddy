@@ -31,7 +31,7 @@ function ResetPassword()
         setSendResult('Email sent');
 
         console.log(response);
-        navigate('/login');
+       // navigate('/login');
       } else {
         setSendResult('Something went wrong');
       }

@@ -53,3 +53,5 @@ function Reset()
         </div>
     )
 }
+
+export default Reset;
