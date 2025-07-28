@@ -83,7 +83,7 @@ router.get("/weeklygoals", async (req, res) => {
     }
     screenTimeData.forEach(entry => {
       const dateString = entry.date.toISOString();
-      result[dateString] = entry.duration || 0;
+      result[dateString] = entry.goalsCompleted || 0;
     });
 
     res.status(200).json({
