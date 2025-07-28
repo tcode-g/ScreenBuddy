@@ -307,11 +307,9 @@ exports.setApp = function(app, client)
             }
             
 
-            const BASE_URL = process.env.NODE_ENV === 'local'
-            ? 'http://localhost:5000'
-            : '' // insert website name here
+            const BASE_URL = 'https://cometcontacts4331.com'
 
-            const resetLink = `${BASE_URL}/reset-password?token=${token}`;
+            const resetLink = `${BASE_URL}/reset/${token}`;
 
             const emailContent = `
                 Hello,
@@ -391,7 +389,7 @@ exports.setApp = function(app, client)
         }
         catch (error) {
             console.error("Error during reset password:", error);
-            res.status(500).json({ message: "An error occurred." });
+            res.status(500).json({ message: "An error occurred.", "error": error });
         }
     });
 
