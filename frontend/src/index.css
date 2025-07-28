@@ -55,6 +55,28 @@ a {
   color: #fd7e97;
 }
 
+.small-nav-link {
+  font-size: 1em;
+  font-weight: 500;
+  color: #F2F5EA;
+  text-decoration: inherit;
+}
+
+.small-nav-link:hover {
+  color: #fd7e97;
+}
+
+.small-nav-link-active {
+  font-size: 1em;
+  font-weight: 500;
+  color: #E75A7C;
+  text-decoration: inherit;
+}
+
+.small-nav-link-active:hover {
+  color: #fd7e97;
+}
+
 
 
 /* || LOGIN PAGE STYLES */
@@ -196,7 +218,7 @@ body {
   border-radius: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   min-height: 50vh;
   min-width: 100vh;
@@ -209,6 +231,92 @@ body {
   text-align: center;
   opacity: 0.8;
 }
+
+#dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #2b343d;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+#sidebar-container {
+  background-color: #34404b;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#histogram-container {
+  background-color: #34404b;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#histogram-toggle-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#daily-toggle-button,
+#weekly-toggle-button {
+  background-color: #E75A7C;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#daily-toggle-button:hover,
+#weekly-toggle-button:hover {
+  background-color: #b84761;
+}
+
+#goal-container {
+  background-color: #34404b;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #F2F5EA;
+  font-size: 1.2em;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#goal-title,
+#goal-duration,
+#goal-status,
+#no-goal {
+  margin: 0.5rem 0;
+  color: #E75A7C;
+}
+
+#goal-success-fail-container {
+  background-color: #34404b;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #F2F5EA;
+  font-size: 1.2em;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+#success-fail-count,
+#win-rate,
+#no-success-fail-data {
+  margin-top: 1rem;
+  color: #E75A7C;
+  font-weight: 600;
+}
+
 
 
 /* || MOBILE HOME PAGE */
@@ -251,6 +359,25 @@ body {
   .info-link {
     font-size: 0.85em;
   }
+
+
+
+  /* new stuff */
+  
+
+  #ad21.profile-sidebar {
+    position: fixed;
+    width: 282px;
+    height: 552px;
+    right: 0;
+    box-sizing: border-box;
+    max-width: 282px;
+    border: 1px solid red;
+    display: block;
+    opacity: 1;
+    z-index: 999;
+  }
+ 
 }
 
 

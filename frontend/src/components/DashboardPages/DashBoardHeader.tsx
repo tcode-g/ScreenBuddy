@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { useState, useEffect } from 'react';
 
+
+import { NavLink } from "react-router-dom";
 
 function DashBoardHeader()
 {
@@ -14,38 +14,10 @@ function DashBoardHeader()
         navigate('/');
     }
 
-    const [profile, setProfile] = useState<any>(null);
+    
     console.log('hello');
-    useEffect(() =>{
-        const fetchUserInfo = async () => {
-            const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
 
-            if(!token){
-                navigate('login'); // denied
-                return;
-            }
-
-            try
-            {
-                console.log(token);
-                console.log(userId);
-                console.log('header: ' , `Bearer ${token}`);
-                const response = await axios.get(`http://172.233.171.46:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
-                // const response = await axios.get(`http://localhost:5000/api/profile/${userId}`, {headers: { Authorization: `Bearer ${token}`,}, });
-                console.log(response.data);
-                setProfile(response.data);
-                //console.log(profile.name + ' ' + profile.created);
-            } catch(error: any){
-                console.error(error);
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
-                navigate('/denied');
-            }    
-        };
-
-        fetchUserInfo();
-    }, []);
+        
 
     return (
         <div className="dashboard-header">
@@ -53,18 +25,21 @@ function DashBoardHeader()
             <h1 className="dash-board-title">ScreenBuddy</h1>
             </a>
 
-            {profile && profile.user && (
-            <div className="dashboard-user-info">
-                <p className="user-name-title"><strong>{profile.user.name}</strong></p>
-                <p className="user-date-subtitle"><strong>User created on:</strong> {profile.user.created}</p>
-            </div>
-            )}
+                <nav className="home-nav-bar">
+                    <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>DashBoard</NavLink>
+                    <NavLink to="/dashboard/buddy" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Buddy</NavLink>
+                    <NavLink to="/dashboard/stats" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Stats</NavLink>
+                    <NavLink to="/shop" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Shop</NavLink>
+                    <NavLink to="/dashboard/settings" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Settings</NavLink>
+                </nav>
+  
+            
 
             <button className="logout-button" onClick={doLogout}>Logout</button>
         </div>
     );
-
-
 };
+
+
 
 export default DashBoardHeader;

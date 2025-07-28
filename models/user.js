@@ -36,8 +36,19 @@ const UserSchema = new Schema({
         type: Date,
     },
     
-    passwordResetToken: String,
+    passwordResetToken: {
+        type: String,
+        unique: true, 
+        sparse: true
+    },
+    
     passwordResetExpires: Date,
+
+    coins: {
+        type: Number,
+        default: 0,
+        min: 0 // No debt
+    },
 
 }, {timestamps: true});
 
