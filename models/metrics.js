@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const screentimeSchema = new Schema({
+const metricsSchema = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -15,9 +15,13 @@ const screentimeSchema = new Schema({
   },
   duration: {
     type: Number,
-    required: true
-  }
+    default: 0,
+  },
+  goalsCompleted: {
+    type: Number,
+    default: 0
+  },
 });
 
-const ScreenTime = mongoose.model('ScreenTime', screentimeSchema, 'screenTime');
-module.exports = ScreenTime;
+const Metrics = mongoose.model('Metrics', metricsSchema, 'metrics');
+module.exports = Metrics;

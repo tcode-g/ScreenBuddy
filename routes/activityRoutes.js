@@ -4,7 +4,7 @@ const User = require("../models/user.js");
 const Goal = require("../models/goal.js");
 const Log = require("../models/log.js");
 const Buddy = require("../models/buddy.js");
-const dailyScreentime = require("../models/dailyScreen.js");
+const Metrics = require("../models/metrics.js"); 
 
 
 async function saveActivityLog(user, event, eventTimestamp) {
@@ -119,7 +119,7 @@ async function saveActivityLog(user, event, eventTimestamp) {
       yesterday.setHours(0, 0, 0, 0);
 
       // update yesterdays screentime regardless if theres an entry or not
-      await dailyScreentime.findOneAndUpdate(
+      await Metrics.findOneAndUpdate(
         { userID: user._id, date: yesterday },
         { $inc: { duration: yesterdayDuration } },
         { upsert: true, new: true }
@@ -129,7 +129,7 @@ async function saveActivityLog(user, event, eventTimestamp) {
 
     }
     // update today's screentime
-    await dailyScreentime.findOneAndUpdate(
+    await Metrics.findOneAndUpdate(
       { userID: user._id, date: startOfToday },
       { $inc: { duration: timeSinceLastLog } },
       { upsert: true, new: true }
@@ -165,6 +165,12 @@ async function saveActivityLog(user, event, eventTimestamp) {
     logEntry.goalMet = true; // mark the log entry as goal met
     user.coins += currentGoal.targetMinutes; // reward user with coins
     user.save(); // save user coins
+
+    await Metrics.findOneAndUpdate(
+      { userID: user._id, date: startOfToday },
+      { $inc: { goalsCompleted: 1 } },
+      { upsert: true, new: true }
+    );
   }
   logEntry.save();
   currentGoal.save(); // save goal changes
