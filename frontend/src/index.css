@@ -224,12 +224,29 @@ body {
   min-width: 100vh;
 }
 
-.dashboard-body-head {
+.label {
+  color: #E75A7C;
+  font-weight: 600;
+}
+
+.value {
   color: #F2F5EA;
-  font-size: 2.5em;
+  font-weight: 600;
+}
+
+.goal-outcome-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+
+.dashboard-body-head {
+  color: #ffffff;
+  font-size: 3em;
   font-weight: 500;
   text-align: center;
-  opacity: 0.8;
+  padding: 2rem;
 }
 
 #dashboard-container {
@@ -284,7 +301,6 @@ body {
 
 #goal-container {
   background-color: #34404b;
-  padding: 2rem;
   border-radius: 12px;
   color: #F2F5EA;
   font-size: 1.2em;
@@ -316,6 +332,73 @@ body {
   color: #E75A7C;
   font-weight: 600;
 }
+
+/* || GEN STATS STYLES */
+
+.genstats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #2b343d;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.genstats-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: #34404b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  color: #F2F5EA;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.stat-name {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #E75A7C;
+}
+
+.stat-value {
+  font-size: 2em;
+  font-weight: 700;
+  color: #F2F5EA;
+}
+
+.genstats-charts {
+  background-color: #34404b;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.chart-title {
+  font-size: 2em;
+  font-weight: 600;
+  color: #E75A7C;
+  margin-bottom: 1rem;
+}
+
+.loading-text {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #F2F5EA;
+  text-align: center;
+  margin-top: 4rem;
+}
+
 
 
 

@@ -64,26 +64,6 @@ function GenStats(){
                         name: 'Longest time off screen (hours)',
                         value: 2
                     },
-
-                    {
-                        name: 'custom stat',
-                        value: 13
-                    },
-
-                    {
-                        name: 'custom stat',
-                        value: 13
-                    },
-
-                    {
-                        name: 'custom stat',
-                        value: 13
-                    },
-
-                    {
-                        name: 'custom name',
-                        value: 13
-                    },
                 ];
 
                 const payload = {
@@ -99,19 +79,27 @@ function GenStats(){
     }, [])
 
     return stats ? (
-       <div>
-            <div>
-                {stats.map((stat:any, index:any) => (
-                    <p key={index}>{stat.name}: {stat.value}</p>
-                ))}
-            </div>
-            <div>
-                <DailyHistogram payload={payload}/> 
-                <WeeklyHistogram payload={payload} />
-            </div>
+  <div className="genstats-container">
+    <div className="genstats-stats-grid">
+      {stats.map((stat: any, index: any) => (
+        <div className="stat-card" key={index}>
+          <p className="stat-name">{stat.name}</p>
+          <p className="stat-value">{stat.value}</p>
         </div>
-    ) :  ( <p>Loading...</p>    
-    );
+      ))}
+    </div>
+
+    <div className="genstats-charts">
+      <h2 className="chart-title">Daily Screen Time</h2>
+      <DailyHistogram payload={payload} />
+
+      <h2 className="chart-title">Weekly Screen Time</h2>
+      <WeeklyHistogram payload={payload} />
+    </div>
+  </div>
+) : (
+  <p className="loading-text">Loading...</p>
+);
 
 }
 

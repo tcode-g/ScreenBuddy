@@ -90,49 +90,71 @@ function DashBoardBody() {
 
     //user prop for profile side bar;
     return (
-        <div id="dashboard-container">
 
+  
 
-            <div id="histogram-container">
-                {tooggleState === 'daily' ? <DailyHistogram payload={payload} /> : <WeeklyHistogram payload={payload} />}
+  <div id="dashboard-container">
 
-                <ProfileSideBar user={profile} />
+    <div id="histogram-container">
+      <h2 className="dashboard-body-head">Activity Overview</h2>
+      <div className="top-section">
+        {tooggleState === 'daily' ? (
+          <DailyHistogram payload={payload} />
+        ) : (
+          <WeeklyHistogram payload={payload} />
+        )}
 
-                <span id="histogram-toggle-buttons">
-                    <button id="daily-toggle-button" onClick={selectDaily}>Today</button>
-                    <button id="weekly-toggle-button" onClick={selectWeekly}>This Week</button>
+        <span id="histogram-toggle-buttons">
+          <button id="daily-toggle-button" onClick={selectDaily}>Today</button>
+          <button id="weekly-toggle-button" onClick={selectWeekly}>This Week</button>
+        </span>
+
+        <ProfileSideBar user={profile} />
+
+      </div>
+
+    </div>
+
+    <div id="goal-success-fail-container" className="goal-success-fail-count-container">
+        <h2 className="dashboard-body-head">Goal Outcomes</h2>
+
+        {activeSuccessFailData ? (
+            <div className="goal-outcome-wrapper">
+            <HorizontalBarChart payload={successFailData} />
+
+            <h4 id="success-fail-count">
+                <span className="label">Success:</span> <span className="value">{successFailData.succeses}</span>{' '}
+                <span className="label">Fails:</span> <span className="value">{successFailData.fails}</span>
+            </h4>
+
+            <h4 id="win-rate">
+                <span className="label">Win rate:</span>{' '}
+                <span className="value">
+                {(successFailData.succeses / (successFailData.succeses + successFailData.fails) * 100).toFixed(1)}%
                 </span>
+            </h4>
             </div>
+        ) : (
+            <h4 id="no-success-fail-data">No data</h4>
+        )}
+    </div>
 
-            <div id="goal-success-fail-container" className="goal-success-fail-count-container">
-                {activeSuccessFailData ? (
-                    <>
-                        <HorizontalBarChart payload={successFailData} />
-                        <h4 id="success-fail-count">
-                            Success: {successFailData.succeses} Fails: {successFailData.fails}
-                        </h4>
-                        <h4 id="win-rate">
-                            Win rate: {(successFailData.succeses / (successFailData.succeses + successFailData.fails) * 100).toFixed(1)}%
-                        </h4>
-                    </>
-                ) : (
-                    <h4 id="no-success-fail-data">No data</h4>
-                )}
-            </div>
 
-                        <div id="goal-container" className="goal-container">
-                {activeGoals ? (
-                    <>
-                        <h4 id="goal-title">Current goal: {goals.title}</h4>
-                        <h4 id="goal-duration">Duration: {goals.targetMinutes}</h4>
-                        <h4 id="goal-status">Status: In progress</h4>
-                    </>
-                ) : (
-                    <h4 id="no-goal">No current goal</h4>
-                )}
-            </div>
-        </div>
-    );
+    <div id="goal-container" className="goal-container">
+      {activeGoals ? (
+        <>
+          <h4 id="goal-title">Current goal: {goals.title}</h4>
+          <h4 id="goal-duration">Duration: {goals.targetMinutes}</h4>
+          <h4 id="goal-status">Status: In progress</h4>
+        </>
+      ) : (
+        <h4 id="no-goal">No current goal</h4>
+      )}
+    </div>
+
+  </div>
+);
+
 }
 
 export default DashBoardBody;
