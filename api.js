@@ -389,7 +389,7 @@ exports.setApp = function(app, client)
         }
         catch (error) {
             console.error("Error during reset password:", error);
-            res.status(500).json({ message: "An error occurred." });
+            res.status(500).json({ message: "An error occurred.", "error": error });
         }
     });
 
