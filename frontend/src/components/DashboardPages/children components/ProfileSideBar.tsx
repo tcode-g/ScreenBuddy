@@ -27,16 +27,16 @@ function ProfileSideBar({ user }: ProfileSideBarProps) {
       }}
     >
         {/* <DisplayBuddy selection={["defaultbuddy"]} />  GETTING RID OF THIS, NOT ENOUGH TIME*/}
-      <h2 style={{ color: "#E75A7C", fontSize: "2.4rem", margin: "0.5rem 0" }}>
+      <h2 style={{ color: "#E75A7C", fontSize: "1.8rem", margin: "0.5rem 0" }}>
         {user.username}
       </h2>
-      <p style={{ margin: "0.3rem 0", fontSize: "1.5rem" }}>
+      <p style={{ margin: "0.3rem 0" }}>
         <strong style={{ color: "#E75A7C" }}>Level:</strong> {user.level}
       </p>
-      <p style={{ margin: "0.3rem 0", fontSize: "1.5rem" }}>
+      <p style={{ margin: "0.3rem 0" }}>
         <strong style={{ color: "#E75A7C" }}>Coins:</strong> {user.coins}
       </p>
-      <p style={{ margin: "0.3rem 0", fontSize: "1.5rem" }}>
+      <p style={{ margin: "0.3rem 0" }}>
         <strong style={{ color: "#E75A7C" }}>Last Login:</strong> {user.lastLogin}
       </p>
     </div>
