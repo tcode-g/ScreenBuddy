@@ -9,12 +9,6 @@ const emailAcc = process.env.EMAIL_ACCOUNT
 require('dotenv').config();
 const emailPassword = process.env.EMAIL_PASSWORD
 
-const crypto = require('crypto');
-
-function generateSecureRandomToken(length = 32) {
-    return crypto.randomBytes(length).toString('base64url');
-}
-
 const buddyRoutes = require('./routes/buddyRoutes.js');
 const goalRoutes = require('./routes/goalRoutes.js');
 const activityRoutes = require('./routes/activityRoutes.js');
@@ -24,6 +18,14 @@ const Goal = require('./models/goal.js');
 const Log = require('./models/log.js');
 const Buddy = require('./models/buddy.js');
 const Shop = require('./models/shop.js');
+
+const crypto = require('crypto');
+
+function generateSecureRandomToken(length = 32) {
+    return crypto.randomBytes(length).toString('base64url');
+}
+
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
