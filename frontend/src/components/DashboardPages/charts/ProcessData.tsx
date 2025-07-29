@@ -136,31 +136,31 @@ export function ProcessData(input: any[], )
         let data = [
             {
                 name: `${newDayList[0]}`,
-                hours: input[0]
+                minutes: input[0]
             },
             {
                 name: `${newDayList[1]}`,
-                hours: input[1]
+                minutes: input[1]
             },
             {
                 name: `${newDayList[2]}`,
-                hours: input[2]
+                minutes: input[2]
             },
             {
                 name: `${newDayList[3]}`,
-                hours: input[3]
+                minutes: input[3]
             },
             {
                 name: `${newDayList[4]}`,
-                hours: input[4]
+                minutes: input[4]
             },
             {
                 name: `${newDayList[5]}`,
-                hours: input[5]
+                minutes: input[5]
             },
             {
                 name: `${newDayList[6]}`,
-                hours: input[6]
+                minutes: input[6]
             },
 
         ];

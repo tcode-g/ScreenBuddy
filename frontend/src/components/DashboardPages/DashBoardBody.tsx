@@ -48,17 +48,23 @@ function DashBoardBody() {
                     validateStatus: () => true
                 });
 
+                const resultResponse = await axios.get(`https://cometcontacts4331.com/api/metrics/screentime`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    validateStatus: () => true
+                });
+                console.log(resultResponse);
+
                 const user = {
                     username: `${response.data.user.name}`,
-                    level: 10,
-                    coins: 500,
-                    lastLogin: 'today'
+                    coins: `${response.data.user.coins}`,
+                    
+                    
                 };
 
                 // prop for daily graph
                 const payload = {
                     daily: [12, 5, 8, 6, 8, 9, 2, 4, 14, 54, 31, 23, 12, 14, 15, 13, 4, 14, 45, 34, 23, 0, 0, 0],
-                    weekly: [12, 5, 8, 6, 8, 9, 2]
+                    weekly: [122, 125, 202, 100, 63.32, 158, 0]
                 };
 
                 const goalsuccessrate = {

@@ -14,6 +14,7 @@ const goalRoutes = require('./routes/goalRoutes.js');
 const activityRoutes = require('./routes/activityRoutes.js');
 const metricsRoutes = require('./routes/metricsRoutes.js');
 const shopRoutes = require('./routes/shopRoutes.js');
+const inventoryRoutes = require('./routes/inventoryRoutes.js');
 const Goal = require('./models/goal.js');
 const Log = require('./models/log.js');
 const Buddy = require('./models/buddy.js');
@@ -455,6 +456,8 @@ exports.setApp = function(app, client)
 
   //shop endpoints
   app.use("/api/shop", auth, shopRoutes);
+
+  app.use("/api/shop", auth, inventoryRoutes);
 
   app.get('/api/test/createobjects', auth, async (req, res) => {
     const user = await User.findById(req.user.id);

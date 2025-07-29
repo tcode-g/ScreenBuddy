@@ -55,3 +55,5 @@ try {
     res.status(500).json({ message: "An error occurred while fetching inventory items." });
   }
 });
+
+module.exports = router;

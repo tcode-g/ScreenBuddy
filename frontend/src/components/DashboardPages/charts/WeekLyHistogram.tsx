@@ -69,7 +69,7 @@ export default class WeeklyHistogram extends PureComponent<WeeklyDiagramProps> {
               }}
             />
             <Bar
-              dataKey="hours"
+              dataKey="minutes"
               fill="#E75A7C"
               activeBar={
                 <Rectangle fill="#fd7e97" stroke="#E75A7C" strokeWidth={2} />
