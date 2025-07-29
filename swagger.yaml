@@ -3,10 +3,10 @@ info:
   version: 1.0.0
   title: ScreenBuddy API
   description: API documentation for ScreenBuddy backend endpoints.
-host: cometcontacts4331.com:5000
+host: cometcontacts4331.com
 basePath: /api
 schemes:
-  - http
+  - https
 consumes:
   - application/json
 produces:
@@ -26,58 +26,42 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - email
-              - username
-              - password
+            required: [email, username, password]
             properties:
-              email:
-                type: string
-                example: "user@example.com"
-              username:
-                type: string
-                example: "myuser"
-              password:
-                type: string
-                example: "mypassword"
+              email: { type: string, example: "user@example.com" }
+              username: { type: string, example: "myuser" }
+              password: { type: string, example: "mypassword" }
       responses:
         201:
           description: User registered successfully
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               user:
                 type: object
                 properties:
-                  id:
-                    type: string
-                  username:
-                    type: string
-                  email:
-                    type: string
+                  id: { type: string }
+                  username: { type: string }
+                  email: { type: string }
         400:
           description: Missing required fields
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         409:
           description: User already exists
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /verify-email:
     post:
@@ -92,45 +76,35 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - email
-              - code
+            required: [email, code]
             properties:
-              email:
-                type: string
-                example: "user@example.com"
-              code:
-                type: string
-                example: "123456"
+              email: { type: string, example: "user@example.com" }
+              code: { type: string, example: "123456" }
       responses:
         200:
           description: Email verified
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         400:
           description: Invalid or expired code
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         404:
           description: User not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /login:
     post:
@@ -145,61 +119,46 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - username
-              - password
+            required: [username, password]
             properties:
-              username:
-                type: string
-                example: "myuser"
-              password:
-                type: string
-                example: "mypassword"
+              username: { type: string, example: "myuser" }
+              password: { type: string, example: "mypassword" }
       responses:
         200:
           description: Login successful
           schema:
             type: object
             properties:
-              message:
-                type: string
-              token:
-                type: string
+              message: { type: string }
+              token: { type: string }
               user:
                 type: object
                 properties:
-                  id:
-                    type: string
-                  email:
-                    type: string
+                  id: { type: string }
+                  email: { type: string }
         400:
           description: Missing credentials
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         401:
           description: Invalid credentials or email not verified
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               user:
                 type: object
                 properties:
-                  id:
-                    type: string
-                  email:
-                    type: string
+                  id: { type: string }
+                  email: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /profile/{id}:
     get:
@@ -224,24 +183,19 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               user:
                 type: object
                 properties:
-                  name:
-                    type: string
-                  created:
-                    type: string
-                    format: date-time
+                  name: { type: string }
+                  created: { type: string, format: date-time }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
-  
+              message: { type: string }
+
   /goals/create:
     post:
       tags:
@@ -259,51 +213,54 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - title
-              - minutes
+            required: [title, minutes]
             properties:
-              title:
-                type: string
-              minutes:
-                type: integer
+              title: { type: string }
+              minutes: { type: integer }
       responses:
         201:
           description: Goal created successfully
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               goal:
                 type: object
+                properties:
+                  _id: { type: string }
+                  userID: { type: string }
+                  title: { type: string }
+                  targetMinutes: { type: integer }
+                  completedMinutes: { type: integer }
+                  isActive: { type: boolean }
+                  lastCompletedDate: { type: string, format: date-time }
+                  createdAt: { type: string, format: date-time }
+                  updatedAt: { type: string, format: date-time }
         400:
           description: User not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
-  /goals/status/{id}:
+  /goals/status/{name}:
     get:
       tags:
         - Goal
-      summary: Get status of a goal by id
+      summary: Get status of a goal by name
       description: Returns the status of a goal for the authenticated user.
       parameters:
         - in: path
-          name: id
+          name: name
           required: true
           type: string
-          description: Goal id
+          description: Goal name
         - in: header
           name: Authorization
           required: true
@@ -315,24 +272,84 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               goal:
                 type: object
+                properties:
+                  _id: { type: string }
+                  userID: { type: string }
+                  title: { type: string }
+                  targetMinutes: { type: integer }
+                  completedMinutes: { type: integer }
+                  isActive: { type: boolean }
+                  lastCompletedDate: { type: string, format: date-time }
+                  createdAt: { type: string, format: date-time }
+                  updatedAt: { type: string, format: date-time }
         400:
           description: User or goal not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
+
+  /goals/update:
+    post:
+      tags:
+        - Goal
+      summary: Update goal status
+      description: Updates the active status of a goal.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required: [goalId, activeStatus]
+            properties:
+              goalId: { type: string }
+              activeStatus: { type: boolean }
+      responses:
+        200:
+          description: Goal updated successfully
+          schema:
+            type: object
+            properties:
+              message: { type: string }
+              goal:
+                type: object
+                properties:
+                  _id: { type: string }
+                  userID: { type: string }
+                  title: { type: string }
+                  targetMinutes: { type: integer }
+                  completedMinutes: { type: integer }
+                  isActive: { type: boolean }
+                  lastCompletedDate: { type: string, format: date-time }
+                  createdAt: { type: string, format: date-time }
+                  updatedAt: { type: string, format: date-time }
+        400:
+          description: User or goal not found
+          schema:
+            type: object
+            properties:
+              message: { type: string }
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message: { type: string }
 
   /goals/all:
     get:
@@ -352,26 +369,33 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               goals:
                 type: array
                 items:
                   type: object
+                  properties:
+                    _id: { type: string }
+                    userID: { type: string }
+                    title: { type: string }
+                    targetMinutes: { type: integer }
+                    completedMinutes: { type: integer }
+                    isActive: { type: boolean }
+                    lastCompletedDate: { type: string, format: date-time }
+                    createdAt: { type: string, format: date-time }
+                    updatedAt: { type: string, format: date-time }
         400:
           description: User not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /goals/active:
     get:
@@ -391,24 +415,31 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               goal:
                 type: object
+                properties:
+                  _id: { type: string }
+                  userID: { type: string }
+                  title: { type: string }
+                  targetMinutes: { type: integer }
+                  completedMinutes: { type: integer }
+                  isActive: { type: boolean }
+                  lastCompletedDate: { type: string, format: date-time }
+                  createdAt: { type: string, format: date-time }
+                  updatedAt: { type: string, format: date-time }
         400:
           description: User not found or no active goal
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /goals/remove:
     post:
@@ -427,70 +458,29 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - goalId
+            required: [goalId]
             properties:
-              goalId:
-                type: string
+              goalId: { type: string }
       responses:
         200:
           description: Goal removed successfully
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         400:
           description: User or goal not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
-  /goals/update:
-    post:
-      tags:
-        - Goal
-      summary: SB Update Goal Status
-      description: Updates the active status of a goal.
-      parameters:
-        - in: header
-          name: Authorization
-          required: true
-          type: string
-          description: Bearer token
-        - in: body
-          name: body
-          required: true
-          schema:
-            type: object
-            required:
-              - goalId
-              - activeStatus
-            properties:
-              goalId:
-                type: string
-                example: 68848f3e18e0f7956c5664cb
-              activeStatus:
-                type: boolean
-                example: true
-      responses:
-        200:
-          description: Goal status updated successfully
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-  
   /buddy/buy:
     post:
       tags:
@@ -508,19 +498,16 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - buddyId
+            required: [buddyId]
             properties:
-              buddyId:
-                type: string
+              buddyId: { type: string }
       responses:
         200:
           description: Buddy bought successfully
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               buddy:
                 type: string
         400:
@@ -528,15 +515,13 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /buddy/equip:
     post:
@@ -555,19 +540,16 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - buddyId
+            required: [buddyId]
             properties:
-              buddyId:
-                type: string
+              buddyId: { type: string }
       responses:
         200:
           description: Buddy equipped successfully
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               buddy:
                 type: string
         400:
@@ -575,15 +557,13 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
 
   /buddy/all:
     get:
@@ -603,34 +583,40 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
               buddies:
                 type: array
                 items:
                   type: object
+                  properties:
+                    _id: { type: string }
+                    userID: { type: string }
+                    name: { type: string }
+                    level: { type: integer }
+                    xp: { type: number }
+                    xpToLevelUp: { type: integer }
+                    isEquipped: { type: boolean }
+                    createdAt: { type: string, format: date-time }
+                    updatedAt: { type: string, format: date-time }
         400:
           description: User not found
           schema:
             type: object
             properties:
-              message:
-                type: string
+              message: { type: string }
         500:
           description: Server error
           schema:
             type: object
             properties:
-              message:
-                type: string
-
+              message: { type: string }
 
   /logs/add:
     post:
       tags:
         - Logs
-      summary: SB Screen Off
-      description: SB Screen Off event logging.
+      summary: Log screen event
+      description: Log a screen_on or screen_off event.
       parameters:
         - in: header
           name: Authorization
@@ -642,21 +628,76 @@ paths:
           required: true
           schema:
             type: object
-            required:
-              - event
+            required: [event]
             properties:
               event:
                 type: string
-                enum:
-                  - screen_off
-                  - screen_on
+                enum: [screen_off, screen_on]
       responses:
         200:
-          description: Screen off event logged successfully
+          description: Activity logged successfully
+          schema:
+            type: object
+            properties:
+              message: { type: string }
+        400:
+          description: Invalid user or missing event
+          schema:
+            type: object
+            properties:
+              message: { type: string }
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              message: { type: string }
+
+  /metrics/screentime:
+    get:
+      tags:
+        - Metrics
+      summary: Get last 7 days of screen time
+      description: Returns the last 7 days of screen time data for the authenticated user.
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          type: string
+          description: Bearer token
+      responses:
+        200:
+          description: Screen time data fetched successfully
           schema:
             type: object
             properties:
               message:
                 type: string
-
-  
+                example: Screen time data fetched successfully.
+              screentime:
+                type: object
+                additionalProperties:
+                  type: number
+                example:
+                  "2024-07-20T00:00:00.000Z": 120
+                  "2024-07-21T00:00:00.000Z": 90
+                  "2024-07-22T00:00:00.000Z": 60
+                  "2024-07-23T00:00:00.000Z": 0
+                  "2024-07-24T00:00:00.000Z": 45
+                  "2024-07-25T00:00:00.000Z": 30
+                  "2024-07-26T00:00:00.000Z": 75
+        400:
+          description: User not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User not found.
+        500:
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
