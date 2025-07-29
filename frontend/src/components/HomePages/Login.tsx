@@ -13,7 +13,6 @@ function Login()
   async function doLogin(event:any) : Promise<void>
   {
     event.preventDefault();
-    console.log('please work');
     var obj = {username: loginName, password: loginPassword};
     
     try

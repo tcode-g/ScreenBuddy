@@ -2,6 +2,9 @@ const request = require("supertest");
 
 const req = request("https://cometcontacts4331.com");
 
+
+// THESE 4 ARE API TESTS
+
 describe("GET /api/user", () => {
   it("should respond with 401 for unauthorized requests", async () => {
     const res = await req.get("/api/user");
@@ -46,5 +49,28 @@ describe("GET /api/goals/all with token", () => {
     expect(res.body).toBeDefined();
     // Optionally, check for expected properties in the response
     expect(res.body).toHaveProperty("goals");
+  });
+});
+
+
+// LUKE'S EXTRA TESTS, ATTEMPT WAS MADE...
+
+describe("GET /api/metrics/screentime with token", () => {
+  it("should respond with screen time data", async () => {
+    const res = await req
+      .get("/api/metrics/screentime")
+      .set("Authorization", `Bearer ${userToken}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("screentime");
+  });
+});
+
+describe("GET /api/metrics/weeklygoals with token", () => {
+  it("should respond with weekly goals data", async () => {
+    const res = await req
+      .get("/api/metrics/weeklygoals")
+      .set("Authorization", `Bearer ${userToken}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("weeklyGoals");
   });
 });
