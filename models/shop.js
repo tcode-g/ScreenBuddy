@@ -32,5 +32,5 @@ module.exports = {
     Color: mongoose.model('Color'), // Export the discriminator models
 };
 
-const Shop = mongoose.model('shopItem', ShopItemSchema);
-module.exports = Shop;
+module.exports = ShopItem;
+
