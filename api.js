@@ -449,6 +449,9 @@ exports.setApp = function(app, client)
   // statistics endpoints
   app.use("/api/metrics", auth, metricsRoutes);
 
+  //shop endpoints
+  app.use("/api/shop", auth, shopRoutes);
+
   app.get('/api/test/createobjects', auth, async (req, res) => {
     const user = await User.findById(req.user.id);
     if (!user) {

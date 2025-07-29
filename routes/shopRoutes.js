@@ -135,3 +135,5 @@ router.get("/populate", async (req, res) => {
     res.status(500).json({message: "An error has occured" , "error": error });
   }
 })
+
+module.export = router;
