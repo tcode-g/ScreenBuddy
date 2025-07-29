@@ -14,9 +14,6 @@ function DashBoardHeader()
         navigate('/');
     }
 
-    
-    console.log('hello');
-
         
 
     return (
