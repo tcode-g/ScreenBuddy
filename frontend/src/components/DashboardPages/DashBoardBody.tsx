@@ -5,6 +5,7 @@ import ProfileSideBar from './children components/ProfileSideBar';
 import DailyHistogram from "./charts/DailyHistogram";
 import WeeklyHistogram from "./charts/WeekLyHistogram";
 import HorizontalBarChart from "./charts/HorizontalBarChart";
+import buddies from "../Buddies";
 
 function DashBoardBody() {
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ function DashBoardBody() {
             }
 
             try {
-                const response = await axios.get(`https://cometcontacts4331.com/api/profile/${userId}`, {
+                const response = await axios.get(`https://cometcontacts4331.com/api/user`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -54,12 +55,30 @@ function DashBoardBody() {
                 });
                 console.log(resultResponse);
 
+                const buddiesResponse = await axios.get(`https://cometcontacts4331.com/api/buddy/all`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    validateStatus: () => true
+                });
+
+                let userLevel = 0;
+                if (buddiesResponse.status === 200) {
+                  const buddiesData = buddiesResponse.data.buddies;
+                  // get active buddy
+                  const activeBuddy = buddiesData.find((buddy: any) => buddy.isEquipped);
+                  if (activeBuddy) {
+                      userLevel = activeBuddy.level;
+                  }
+                }
+
+
+
                 const user = {
-                    username: `${response.data.user.name}`,
+                    username: `${response.data.user.username}`,
                     coins: `${response.data.user.coins}`,
-                    
+                    level: `${userLevel}`,
                     
                 };
+                // let user = response.data.user;
 
                 // prop for daily graph
                 const payload = {
@@ -78,7 +97,7 @@ function DashBoardBody() {
                 setActiveSuccessFailData(true);
 
                 if (goalResponse.status == 200) {
-                    setGoals(goalResponse.data);
+                    setGoals(goalResponse.data.goal);
                     setActiveGoals(true);
                 } else {
                     setActiveGoals(false);

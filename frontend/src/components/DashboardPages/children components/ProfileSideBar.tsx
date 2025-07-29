@@ -36,9 +36,6 @@ function ProfileSideBar({ user }: ProfileSideBarProps) {
       <p style={{ margin: "0.3rem 0" }}>
         <strong style={{ color: "#E75A7C" }}>Coins:</strong> {user.coins}
       </p>
-      <p style={{ margin: "0.3rem 0" }}>
-        <strong style={{ color: "#E75A7C" }}>Last Login:</strong> {user.lastLogin}
-      </p>
     </div>
   );
 }
