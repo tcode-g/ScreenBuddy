@@ -77,7 +77,7 @@ router.get("/shop", auth, async (req, res) => {
     res.status(200).json({ message: "Shop items fetched successfully.", items: items });
   } catch (error) {
     console.error("Error fetching shop items:", error);
-    res.status(500).json({ message: "An error occurred while fetching shop items." });
+    res.status(500).json({ message: "An error occurred while fetching shop items." , "error": error});
   }
 });
 
