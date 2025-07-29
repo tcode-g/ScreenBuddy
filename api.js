@@ -17,7 +17,7 @@ const shopRoutes = require('./routes/shopRoutes.js');
 const Goal = require('./models/goal.js');
 const Log = require('./models/log.js');
 const Buddy = require('./models/buddy.js');
-const Shop = require('./models/shop.js');
+const {ShopItem} = require('./models/shop.js');
 
 const crypto = require('crypto');
 

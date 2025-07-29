@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth.js");
 const User = require("../models/user.js");
-const ShopItem = require("../models/shop.js");
+const {ShopItem} = require("../models/shop.js");
 const UserInventoryItem = require('../models/userInventory'); 
 
 router.post("/buy", auth, async (req, res, next) => {
