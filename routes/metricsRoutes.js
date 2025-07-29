@@ -26,11 +26,15 @@ router.get("/screentime", async (req, res) => {
       const date = new Date();
       date.setDate(today.getDate() - i);
       date.setHours(0, 0, 0, 0);
-      const dateString = date.toISOString();
+      const dateString = date.toLocaleDateString();
       result[dateString] = 0;
     }
     screenTimeData.forEach(entry => {
-      const dateString = entry.date.toISOString();
+      const dateString = entry.date.toLocaleDateString();
+      // if not already in result, skip it
+      if (dateString in result === false) {
+        return;
+      }
       result[dateString] = entry.duration || 0;
     });
 
@@ -65,7 +69,7 @@ router.get("/weeklygoals", async (req, res) => {
 
     const today = new Date();
     const lastWeek = new Date();
-    lastWeek.setDate(today.getDate() - 7);
+    lastWeek.setDate(today.getDate() - 6);
     lastWeek.setHours(0, 0, 0, 0);
 
     const screenTimeData = await Metrics.find({
@@ -77,12 +81,15 @@ router.get("/weeklygoals", async (req, res) => {
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
       date.setDate(today.getDate() - i);
-      date.setHours(0, 0, 0, 0);
-      const dateString = date.toISOString();
+      date.setHours(4, 0, 0, 0);
+      const dateString = date.toLocaleDateString();
       result[dateString] = 0;
     }
     screenTimeData.forEach(entry => {
-      const dateString = entry.date.toISOString();
+      const dateString = entry.date.toLocaleDateString();
+      if (dateString in result === false) {
+        return;
+      }
       result[dateString] = entry.goalsCompleted || 0;
     });
 

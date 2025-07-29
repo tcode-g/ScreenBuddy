@@ -253,7 +253,7 @@ router.get("/bulk-add", async (req, res) => {
   }
 });
 
-router.post("/bulk-add-duration", async (req, res) => {
+router.post("/durations", async (req, res) => {
   try {
     // req.body is in the form: {date: duration, date2: duration2, ...}
     // loop through the object and add each date and duration to the metrics
