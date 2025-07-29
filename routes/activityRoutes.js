@@ -14,7 +14,7 @@ async function saveActivityLog(user, event, eventTimestamp) {
   
   let currentGoal = await Goal.findOne({ userID: user._id, isActive: true });
   let noActiveGoal = false;
-  if (!currentGoal) { // this should never happen  --------just in case create the goal if it doesn't exist
+  if (!currentGoal) { 
     console.log("No active goal found for user.");
     
     // check for a recent goal that is not active by lastCompletedDate
@@ -253,6 +253,71 @@ router.get("/bulk-add", async (req, res) => {
   }
 });
 
+router.post("/bulk-add-duration", async (req, res) => {
+  try {
+    // req.body is in the form: {date: duration, date2: duration2, ...}
+    // loop through the object and add each date and duration to the metrics
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ message: "Invalid user." });
+    }
 
+    const activities = req.body;
+    if (!activities || typeof activities !== 'object') {
+      return res.status(400).json({ message: "Activities must be an object." });
+    }
+
+    for (const [date, duration] of Object.entries(activities)) {
+      if (!date || !duration) {
+        continue; // skip invalid activity
+      }
+      const activityDate = new Date(date);
+      if (isNaN(activityDate.getTime()) || isNaN(duration)) {
+        continue; // skip invalid date or duration
+      }
+
+      activityDate.setHours(0, 0, 0, 0); // set to start of the day
+
+      // Update the metrics for the user
+      await Metrics.findOneAndUpdate(
+        { userID: user._id, date: activityDate },
+        { $inc: { duration: duration } },
+        { upsert: true, new: true }
+      );
+      
+      // Get goal to apply the duration to
+      // let currentGoal = await Goal.findOne({ userID: user._id, isActive: true });
+      // if (!currentGoal) {
+      //   console.log("No active goal found for user.");
+      //   currentGoal = await Goal.findOne({ userID: user._id }).sort({
+      //     lastCompletedDate: -1,
+      //   });
+
+      //   if (currentGoal && currentGoal.lastCompletedDate) {
+      //     const today = new Date(activityDate);
+      //     const lastCompletedDate = new Date(currentGoal.lastCompletedDate);
+      //     today.setHours(0, 0, 0, 0);
+      //     lastCompletedDate.setHours(0, 0, 0, 0);
+
+      //     if (lastCompletedDate.getTime() != today.getTime()) {
+      //       console.log("Recent goal found, activating it.");
+      //       currentGoal.isActive = true; // set the goal to active
+      //       currentGoal.completedMinutes = 0; // reset completed minutes
+      //     }
+      //   } else {
+      //     currentGoal = await Goal.findOne({ userID: user._id }).sort({
+      //       updatedAt: -1,
+      //     });
+      //   }
+      // }
+
+    }
+
+    res.status(200).json({ message: "Activities logged successfully." });
+  } catch (error) {
+    console.error("Error");
+    return res.status(400).json({ message: "Error during request." });
+  }
+});
 
 module.exports = router;

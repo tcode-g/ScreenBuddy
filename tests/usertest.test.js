@@ -1,6 +1,6 @@
 const request = require("supertest");
 
-const req = request("http://localhost:5000");
+const req = request("https://cometcontacts4331.com");
 
 describe("GET /api/user", () => {
   it("should respond with 401 for unauthorized requests", async () => {
@@ -34,5 +34,17 @@ describe("GET /api/user with token", () => {
     expect(res.body).toBeDefined();
     // Optionally, check for expected properties in the response
     expect(res.body).toHaveProperty("user");
+  });
+});
+
+describe("GET /api/goals/all with token", () => {
+  it("should respond with all goals belonging to authenticated user", async () => {
+    const res = await req
+      .get("/api/goals/all")
+      .set("Authorization", `Bearer ${userToken}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeDefined();
+    // Optionally, check for expected properties in the response
+    expect(res.body).toHaveProperty("goals");
   });
 });
