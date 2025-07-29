@@ -25,7 +25,7 @@ function DashBoardHeader()
             <h1 className="dash-board-title">ScreenBuddy</h1>
             </a>
 
-                <nav className="home-nav-bar">
+                <nav className="dash-nav-bar">
                     <NavLink to="/dashboard" end className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Dash Board</NavLink>
 
                     {/* <NavLink to="/dashboard/buddy" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Buddy</NavLink> */}

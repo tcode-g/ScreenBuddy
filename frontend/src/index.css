@@ -29,8 +29,16 @@ a {
 .home-nav-bar {
   display: flex;
   justify-content: center;
-  gap: 10rem;
+  gap: 2rem;
+  padding: 1rem;
 }
+
+.dash-nav-bar {
+  display: flex;
+  gap: 12rem;
+  padding: 0rem;
+}
+
 
 .nav-link {
   font-size: 2em;
