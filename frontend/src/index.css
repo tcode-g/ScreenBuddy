@@ -460,6 +460,36 @@ body {
     opacity: 1;
     z-index: 999;
   }
+
+  /* shop styles*/
+.shop-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem;
+  padding: 2rem;
+  background-color: #2b343d;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.shop-card {
+  background-color: #34404b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  color: #F2F5EA;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
  
 }
 

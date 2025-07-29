@@ -29,7 +29,7 @@ function DashBoardHeader()
                     <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>DashBoard</NavLink>
                     <NavLink to="/dashboard/buddy" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Buddy</NavLink>
                     <NavLink to="/dashboard/stats" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Stats</NavLink>
-                    <NavLink to="/shop" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Shop</NavLink>
+                    <NavLink to="/dashboard/shop" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Shop</NavLink>
                     <NavLink to="/dashboard/settings" className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}>Settings</NavLink>
                 </nav>
   
