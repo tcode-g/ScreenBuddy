@@ -14,13 +14,13 @@ type itemProps = {
 };
 
 const ShopItem: React.FC<itemProps> = ({items}) => {
-    const handleBuyClick = async (id: string) => {
+    /*const handleBuyClick = async (id: string) => {
         try {
             //const response = await axios
         } catch (error){
             console.error('An error has occurred');
         }
-    }
+    }*/
     console.log(items);
     
     return(
@@ -29,7 +29,7 @@ const ShopItem: React.FC<itemProps> = ({items}) => {
                 (<div className="shop-card" key= {item.id} >
                     <img src={buddies[item.name]} alt={item.name} style={{ width: '200px', height: '200px', objectFit: 'contain'}}/>
                     <h2>{item.name}</h2>
-                    <button onClick={() => handleBuyClick(item.id)} className="buy-button">Buy</button>
+                    <button className="buy-button">Buy</button>
                 </div>        
             ))}
        </div>
