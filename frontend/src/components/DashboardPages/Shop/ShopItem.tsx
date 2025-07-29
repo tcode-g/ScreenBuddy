@@ -29,6 +29,7 @@ const ShopItem: React.FC<itemProps> = ({items}) => {
                 (<div className="shop-card" key= {item.id} >
                     <img src={buddies[item.name]} alt={item.name} style={{ width: '200px', height: '200px', objectFit: 'contain'}}/>
                     <h2>{item.name}</h2>
+                    <h2>{item.price}</h2>
                     <button className="buy-button">Buy</button>
                 </div>        
             ))}
