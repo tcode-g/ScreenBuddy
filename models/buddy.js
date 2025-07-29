@@ -29,7 +29,7 @@ const BuddySchema = new Schema(
 
     xpToLevelUp: {
       type: Number,
-      default: 10,
+      default: 100,
       min: 0,
     },
 
@@ -58,7 +58,6 @@ BuddySchema.statics.createBuddy = function(userID, name, equipped = false) {
     name,
     level: 1,
     xp: 0,
-    xpToLevelUp: 10,
     isEquipped: equipped,
   });
 };
