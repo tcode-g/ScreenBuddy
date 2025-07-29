@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DailyHistogram from "../charts/DailyHistogram";
 import WeeklyHistogram from "../charts/WeekLyHistogram";
 import axios from "axios";
+import { parse } from "dotenv";
 
 type statProp = {
     name: string;
@@ -42,6 +43,24 @@ function GenStats(){
                     navigate('/denied');
                 }    
                 */          
+                let hoursThisWeek = 71; // default value
+                try {
+                    const response = await axios.get(`https://cometcontacts4331.com/api/metrics/screentime`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                        validateStatus: () => true
+                    });
+                    if (response.status === 200) {
+                        let totalScreentime = 0;
+                        // sum all values from dict
+                        for (const [date, screentime] of Object.entries(response.data.screentime)) {
+                            totalScreentime += parseInt(screentime, 10);
+                        }
+                        hoursThisWeek = Math.floor(totalScreentime / 60); // convert minutes to hours
+                    }
+                } catch (error) {
+                    console.error("Error fetching screentime data:", error);
+                }
+
                 
                 //  dummy data
                 const data: statProp[] = [
@@ -57,7 +76,7 @@ function GenStats(){
 
                     {
                         name: 'Current total screentime this week (hours)',
-                        value: 71
+                        value: hoursThisWeek
                     },
 
                     {
@@ -68,8 +87,8 @@ function GenStats(){
 
                 const payload = {
                     daily: [12, 5, 8, 6, 8, 9, 2, 4, 14, 54, 31, 23, 12, 14, 15, 13, 4, 14, 45, 34, 23, 0, 0, 0],
-                    weekly: [12, 5, 8, 6, 8, 9, 2]
-                }
+                    weekly: [122, 125, 202, 100, 63.32, 158, 0]
+                };
 
                 setStats(data);
                 setPayload(payload);
