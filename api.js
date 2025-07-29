@@ -19,9 +19,11 @@ const buddyRoutes = require('./routes/buddyRoutes.js');
 const goalRoutes = require('./routes/goalRoutes.js');
 const activityRoutes = require('./routes/activityRoutes.js');
 const metricsRoutes = require('./routes/metricsRoutes.js');
+const shopRoutes = require('./routes/shopRoutes.js');
 const Goal = require('./models/goal.js');
 const Log = require('./models/log.js');
 const Buddy = require('./models/buddy.js');
+const Shop = require('./models/shop.js');
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
