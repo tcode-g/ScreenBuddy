@@ -60,19 +60,27 @@ function GenStats(){
                         //     });
                         // }
 
-                        for (const [_date, screentime] of Object.entries(response.data.screentime)) {
+                        for (const value of response.data.screentime.values()) {
+                            const screentimeValue = parseInt(screentime as string, 10);
+                            // Good practice: also check if parseInt returned a valid number (not NaN)
+                                if (!isNaN(screentimeValue)) {
+                                totalScreentime += screentimeValue;
+                                }
+                        }
 
-  // This check ensures screentime is not null, undefined, or an empty string
-  // before you try to parse it.
-  if (screentime) {
-    const screentimeValue = parseInt(screentime as string, 10);
+//                         for (const [_date, screentime] of Object.entries(response.data.screentime)) {
 
-    // Good practice: also check if parseInt returned a valid number (not NaN)
-    if (!isNaN(screentimeValue)) {
-      totalScreentime += screentimeValue;
-    }
-  }
-}
+//                             // This check ensures screentime is not null, undefined, or an empty string
+//                             // before you try to parse it.
+//                             if (screentime) {
+//                                 const screentimeValue = parseInt(screentime as string, 10);
+
+//                                 // Good practice: also check if parseInt returned a valid number (not NaN)
+//                                 if (!isNaN(screentimeValue)) {
+//                                 totalScreentime += screentimeValue;
+//                                 }
+//                             }
+// }
 
                         
 
