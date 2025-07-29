@@ -63,9 +63,9 @@ function GenStats(){
                         for (const value of response.data.screentime.values()) {
                             const screentimeValue = parseInt(value as string, 10);
                             // Good practice: also check if parseInt returned a valid number (not NaN)
-                                if (!isNaN(screentimeValue)) {
+                            if (!isNaN(screentimeValue)) {
                                 totalScreentime += screentimeValue;
-                                }
+                            }
                         }
 
 //                         for (const [_date, screentime] of Object.entries(response.data.screentime)) {

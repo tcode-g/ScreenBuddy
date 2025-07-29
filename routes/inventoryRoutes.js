@@ -48,7 +48,7 @@ try {
         return res.status(400).json({ message: "User not found." });
     }
 
-    const items = await UserInventoryItem.find({ userId: user._id });
+    const items = await UserInventoryItem.find({ userID: user._id });
     res.status(200).json({ message: "Inventory items fetched successfully.", items: items });
   } catch (error) {
     console.error("Error fetching inventory items:", error);
