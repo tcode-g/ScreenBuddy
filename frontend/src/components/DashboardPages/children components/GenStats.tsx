@@ -51,10 +51,34 @@ function GenStats(){
                     });
                     if (response.status === 200) {
                         let totalScreentime = 0;
-                        // sum all values from dict
-                        for (const [date, screentime] of Object.entries(response.data.screentime)) {
-                            totalScreentime += parseInt(screentime, 10);
-                        }
+                        // sum all values from response.data.screentime
+                        // if (response.data.screentime) {
+                        //     // Assuming response.data.screentime is an object with date keys and time values
+                        //     // Iterate through each date and sum the screentime values
+                        //     Object.values(response.data.screentime).forEach((screentime) => {
+                        //         totalScreentime += screentime;
+                        //     });
+                        // }
+
+                        for (const [_date, screentime] of Object.entries(response.data.screentime)) {
+
+  // This check ensures screentime is not null, undefined, or an empty string
+  // before you try to parse it.
+  if (screentime) {
+    const screentimeValue = parseInt(screentime as string, 10);
+
+    // Good practice: also check if parseInt returned a valid number (not NaN)
+    if (!isNaN(screentimeValue)) {
+      totalScreentime += screentimeValue;
+    }
+  }
+}
+
+                        
+
+                        // for (const [date, screentime] of Object.entries(response.data.screentime)) {
+                        //     totalScreentime += parseInt(screentime, 10);
+                        // }
                         hoursThisWeek = Math.floor(totalScreentime / 60); // convert minutes to hours
                     }
                 } catch (error) {
