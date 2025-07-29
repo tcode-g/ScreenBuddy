@@ -281,7 +281,8 @@ router.post("/durations", async (req, res) => {
       // Update the metrics for the user
       await Metrics.findOneAndUpdate(
         { userID: user._id, date: activityDate },
-        { $inc: { duration: duration } },
+        // { $inc: { duration: duration } },
+        { duration: duration }, // set the duration directly
         { upsert: true, new: true }
       );
       
