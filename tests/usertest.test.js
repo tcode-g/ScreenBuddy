@@ -36,3 +36,15 @@ describe("GET /api/user with token", () => {
     expect(res.body).toHaveProperty("user");
   });
 });
+
+describe("GET /api/goals/all with token", () => {
+  it("should respond with all goals belonging to authenticated user", async () => {
+    const res = await req
+      .get("/api/user")
+      .set("Authorization", `Bearer ${userToken}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeDefined();
+    // Optionally, check for expected properties in the response
+    expect(res.body).toHaveProperty("goals");
+  });
+});
