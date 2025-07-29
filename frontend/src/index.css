@@ -29,8 +29,7 @@ a {
 .home-nav-bar {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 10rem;
 }
 
 .nav-link {
@@ -418,7 +417,7 @@ body {
   .home-nav-bar {
     flex-direction: row;
     align-items: center;
-    gap: 0.7rem;
+    gap: 1.6rem;
   }
 
   .info-box {
