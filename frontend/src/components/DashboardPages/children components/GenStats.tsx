@@ -51,7 +51,7 @@ function GenStats(){
                     },
 
                     {
-                        name: ' Total sreentime last week (hours)',
+                        name: ' Total screentime last week (hours)',
                         value: 87
                     },
 
